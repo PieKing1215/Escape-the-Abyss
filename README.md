@@ -1,5 +1,5 @@
 # Dragonfly
-This 2D C++ engine uses ASCII art for it's graphics. This engine was made over the span of three weeks for my IMGD3000 class at Worcester Polytechnic Institute. This engine is fully featured and ready to be used to create games. It's a pretty basic engine, so can be extended to use SFML's full capabilities.
+This 2D C++ engine uses ASCII art for it's graphics. This engine was made over the span of three weeks for my IMGD3000 class at Worcester Polytechnic Institute. This engine is fully featured and ready to be used to create games. It's a pretty basic engine, but it can be extended to use SFML's full capabilities.
 
 ## FEATURES
 - Graceful engine and window start up and shut down.
