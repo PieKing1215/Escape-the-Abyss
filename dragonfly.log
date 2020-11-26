@@ -1,0 +1,259 @@
+Dragonfly by Dennis James Stelmach following the Dragonfly book available at https://dragonfly.wpi.edu/book/
+      | 19:41:10.452 | LogManager       | Started.
+      | 19:41:10.860 | DisplayManager   | Started.
+      | 19:41:10.860 | DisplayManager   | Size of window: 1024px x 768px.
+      | 19:41:10.860 | WorldManager     | Started.
+      | 19:41:10.860 | WorldManager     | Size of world: 80.000000 x 60.000000.
+      | 19:41:10.860 | WorldManager     | Size of viewable area: 32.000000 x 60.000000.
+      | 19:41:10.861 | WorldManager     | Top-left corner of world: -24 0.
+      | 19:41:10.861 | InputManager     | Started.
+      | 19:41:10.861 | GameManager      | Started.
+      | 19:41:10.861 | GameManager      | Started.
+      | 19:41:10.885 | ResourceManager  | Started.
+      | 19:41:10.885 | ResourceManager  | Loading sprite 'good-spr'.
+      | 19:41:10.885 | ResourceManager  | Loading file 'sprites/good-spr.txt'.
+      | 19:41:10.886 | ResourceManager  | Sprite 'good-spr' loaded.
+      | 19:41:10.886 | ResourceManager  | Loading sprite 'bad-spr'.
+      | 19:41:10.886 | ResourceManager  | Loading file 'sprites/bad-spr.txt'.
+ERROR | 19:41:10.887 | ResourceManager  | Error loading sprite frame: Frame does not exist.
+ERROR | 19:41:10.887 | ResourceManager  | Error loading bad-spr sprite: 1 frame not declared properly in BODY
+ALERT | 19:41:10.887 | ResourceManager  | Sprite 'bad-spr' not loaded.
+      | 19:41:10.887 | ResourceManager  | Loading sprite 'nan-spr'.
+      | 19:41:10.887 | ResourceManager  | Loading file 'sprites/nan-spr.txt'.
+ERROR | 19:41:10.887 | ResourceManager  | Error opening 'nan-spr' sprite from file 'sprites/nan-spr.txt'.
+ALERT | 19:41:10.887 | ResourceManager  | Sprite 'nan-spr' not loaded.
+      | 19:41:10.887 | ResourceManager  | Loading sprite 'good-spr'.
+ERROR | 19:41:10.887 | ResourceManager  | Cannot load sprite with label 'good-spr'. 'good-spr' already loaded.
+      | 19:41:10.887 | ResourceManager  | Loading sound 'explode'
+      | 19:41:10.889 | ResourceManager  | Sound 'explode' loaded.
+      | 19:41:10.889 | ResourceManager  | Loading sound 'fire'
+      | 19:41:10.891 | ResourceManager  | Sound 'fire' loaded.
+      | 19:41:10.892 | ResourceManager  | Loading sound 'game-over'
+      | 19:41:10.906 | ResourceManager  | Sound 'game-over' loaded.
+      | 19:41:10.906 | ResourceManager  | Loading sound 'nuke'
+      | 19:41:10.914 | ResourceManager  | Sound 'nuke' loaded.
+      | 19:41:10.914 | ResourceManager  | Loading music 'start_music'
+      | 19:41:10.914 | ResourceManager  | Music 'start_music' loaded.
+      | 19:41:10.914 | ResourceManager  | Loading sound 'explode'
+ALERT | 19:41:10.914 | ResourceManager  | Cannot load sound with label 'explode'. 'explode' already loaded.
+      | 19:41:10.914 | ResourceManager  | Loading sound 'start_music'
+      | 19:41:10.990 | ResourceManager  | Sound 'start_music' loaded.
+      | 19:41:10.990 | ResourceManager  | Loading sound 'abc'
+ERROR | 19:41:10.990 | Sound            | Error loading sound from file 'sounds/abc.wav'
+ALERT | 19:41:10.990 | ResourceManager  | Unable to load sound 'abc' from file 'sounds/abc.wav'.
+      | 19:41:10.990 | ResourceManager  | Loading music 'abc'
+ERROR | 19:41:10.991 | Music            | Error loading music from file 'sounds/abc.wav'
+ALERT | 19:41:10.991 | ResourceManager  | Unable to load music 'abc' from file 'sounds/abc.wav'.
+ALERT | 19:41:10.991 | WorldManager     | Can now recieve events of type 'df::step'
+      | 19:41:10.991 | Object 0         | Spawned. Awaiting sprite or manual insert for world insertion.
+      | 19:41:10.991 | TestObject 0     | Renamed TestObject.
+      | 19:41:10.991 | TestObject 0     | Sprite set to 'good-spr'.
+      | 19:41:10.991 | SceneGraph       | Inserting object 'TestObject 0'
+      | 19:41:10.991 | ObjectList       | Scaling list from 1 by factor of 2.000000...
+      | 19:41:10.991 | Object 1         | Spawned. Awaiting sprite or manual insert for world insertion.
+      | 19:41:10.991 | TestObject 1     | Renamed TestObject.
+      | 19:41:10.991 | TestObject 1     | Sprite set to 'good-spr'.
+      | 19:41:10.991 | SceneGraph       | Inserting object 'TestObject 1'
+      | 19:41:10.991 | ObjectList       | Scaling list from 1 by factor of 2.000000...
+      | 19:41:10.991 | ObjectList       | Scaling list from 1 by factor of 2.000000...
+      | 19:41:10.991 | ObjectList       | Scaling list from 1 by factor of 2.000000...
+      | 19:41:10.991 | ObjectList       | Scaling list from 2 by factor of 2.000000...
+      | 19:41:10.992 | Object 2         | Spawned. Awaiting sprite or manual insert for world insertion.
+      | 19:41:10.992 | TestObject 2     | Renamed TestObject.
+      | 19:41:10.992 | TestObject 2     | Sprite set to 'good-spr'.
+      | 19:41:10.992 | SceneGraph       | Inserting object 'TestObject 2'
+      | 19:41:10.992 | ObjectList       | Scaling list from 2 by factor of 2.000000...
+      | 19:41:10.992 | ObjectList       | Scaling list from 2 by factor of 2.000000...
+      | 19:41:10.992 | ObjectList       | Scaling list from 2 by factor of 2.000000...
+      | 19:41:10.992 | Clock            | Delta clock started. Reported start time: 19:41:10.992 UTC
+ALERT | 19:41:10.992 | GameManager      | --------START GAME LOOP--------
+ALERT | 19:41:13.419 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.419 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.453 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.453 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.487 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.487 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.521 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.521 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.555 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.555 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.590 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.590 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.624 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.624 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.657 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.657 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.691 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.691 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.725 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.725 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.759 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.759 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.793 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.793 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.826 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.826 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.860 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.860 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.894 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.894 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.928 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.928 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.961 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.961 | TestObject 1     | Collision Event.
+ALERT | 19:41:13.994 | TestObject 0     | Soft Out Event.
+ALERT | 19:41:13.994 | TestObject 2     | Collision Event.
+ALERT | 19:41:13.994 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.028 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.028 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.062 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.062 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.096 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.096 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.130 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.130 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.163 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.163 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.198 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.198 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.231 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.231 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.266 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.266 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.300 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.300 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.334 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.334 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.367 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.367 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.402 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.402 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.436 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.436 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.469 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.469 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.504 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.504 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.538 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.538 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.573 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.573 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.606 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.606 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.640 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.640 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.674 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.674 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.708 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.708 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.741 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.741 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.774 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.774 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.808 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.808 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.842 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.842 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.877 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.877 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.911 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.911 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.945 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.945 | TestObject 1     | Collision Event.
+ALERT | 19:41:14.981 | TestObject 2     | Collision Event.
+ALERT | 19:41:14.981 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.014 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.014 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.048 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.048 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.082 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.082 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.115 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.115 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.149 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.149 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.183 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.183 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.216 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.216 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.250 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.250 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.284 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.284 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.318 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.318 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.352 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.352 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.386 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.386 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.419 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.419 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.453 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.453 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.487 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.487 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.521 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.521 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.555 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.555 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.589 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.589 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.624 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.624 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.657 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.657 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.691 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.691 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.724 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.724 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.758 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.758 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.791 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.791 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.826 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.826 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.859 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.859 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.893 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.893 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.927 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.927 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.961 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.961 | TestObject 1     | Collision Event.
+ALERT | 19:41:15.996 | TestObject 2     | Collision Event.
+ALERT | 19:41:15.996 | TestObject 1     | Collision Event.
+ALERT | 19:41:16.030 | TestObject 0     | Hard Out Event.
+ALERT | 19:41:16.030 | TestObject 2     | Collision Event.
+ALERT | 19:41:16.030 | TestObject 1     | Collision Event.
+ALERT | 19:41:16.063 | TestObject 2     | Collision Event.
+ALERT | 19:41:16.063 | TestObject 1     | Collision Event.
+ALERT | 19:41:16.097 | TestObject 2     | Collision Event.
+ALERT | 19:41:16.097 | TestObject 1     | Collision Event.
+ALERT | 19:41:16.100 | TestObject 0     | Kill time reached.
+ALERT | 19:41:16.100 | TestObject 1     | Kill time reached.
+ALERT | 19:41:16.100 | TestObject 2     | Kill time reached.
+ALERT | 19:41:16.131 | GameManager      | ---------END GAME LOOP---------
+      | 19:41:16.131 | ResourceManager  | Unloading sprite 'good-spr'.
+      | 19:41:16.131 | ResourceManager  | Sprite 'good-spr' unloaded.
+      | 19:41:16.131 | ResourceManager  | Unloading sprite 'bad-spr'.
+ALERT | 19:41:16.131 | ResourceManager  | Cannot unload sprite 'bad-spr'. Sprite not found.
+      | 19:41:16.131 | ResourceManager  | Unloading sound 'explode'.
+      | 19:41:16.133 | ResourceManager  | Sound 'explode' unloaded.
+      | 19:41:16.133 | ResourceManager  | Unloading sound 'fire'.
+      | 19:41:16.135 | ResourceManager  | Sound 'fire' unloaded.
+      | 19:41:16.135 | ResourceManager  | Unloading sound 'game-over'.
+      | 19:41:16.137 | ResourceManager  | Sound 'game-over' unloaded.
+      | 19:41:16.137 | ResourceManager  | Unloading sound 'nuke'.
+      | 19:41:16.139 | ResourceManager  | Sound 'nuke' unloaded.
+      | 19:41:16.139 | ResourceManager  | Unloading music 'start_music'.
+      | 19:41:16.139 | ResourceManager  | Music 'start_music' unloaded.
+      | 19:41:16.139 | GameManager      | Stopping managers.
+      | 19:41:16.139 | InputManager     | Stopped.
+      | 19:41:16.139 | WorldManager     | Killing all Objects.
+ALERT | 19:41:16.139 | TestObject 0     | Die.
+ALERT | 19:41:16.139 | TestObject 1     | Die.
+ALERT | 19:41:16.139 | TestObject 2     | Die.
+      | 19:41:16.139 | WorldManager     | Stopped.
+      | 19:41:16.139 | DisplayManager   | Closing window.
+      | 19:41:16.147 | DisplayManager   | Stopped.
+      | 19:41:16.147 | LogManager       | Stopping...
