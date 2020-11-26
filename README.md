@@ -20,8 +20,7 @@ This 2D C++ engine uses ASCII art for it's graphics. This engine was made over t
 - Runtime logging.
 
 ## PLATFORM
-Made for Windows 10 x64
-Mac and Linux should work fine as long as you update the time functions in utility.cpp, but be aware that I haven't tested it.
+Made for Windows 10 x64. Mac and Linux should work fine as long as you update the time functions in utility.cpp, but be aware that I haven't tested it.
 
 ## HOW TO BUILD
 Download SFML (>= 2.5) here https://www.sfml-dev.org/download.php
