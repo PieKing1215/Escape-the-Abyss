@@ -1,11 +1,14 @@
 <HEADER>
 frames 2
-width 4
-height 2
+width 3
+height 1
+color green
+slowdown 4
 </HEADER>
 <BODY>
-1234
-5678
+/ \
+end
+ | 
 end
 </BODY>
 <FOOTER>

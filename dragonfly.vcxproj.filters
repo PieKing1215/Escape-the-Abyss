@@ -93,9 +93,6 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -109,6 +106,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorldManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,9 +200,6 @@
     <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TextEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -207,6 +213,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WorldManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMaster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

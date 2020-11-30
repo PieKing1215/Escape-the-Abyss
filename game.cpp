@@ -11,9 +11,6 @@
 #include "ResourceManager.h"
 #include "utility.h"
 
-// Tests.
-#include "TestObject.h"
-
 // Function prototypes.
 void loadResources();
 void unloadResources();
@@ -54,47 +51,21 @@ int main(int argc, char* argv[]) {
 }
 
 void loadResources() {
-	RM.loadSprite("sprites/good-spr.txt", "good-spr"); // Test loading good sprite.
-	RM.loadSprite("sprites/bad-spr.txt", "bad-spr"); // Test loading bad sprite.
-	RM.loadSprite("sprites/nan-spr.txt", "nan-spr"); // Test loading non-existent sprite.
-	
-	RM.loadSprite("sprites/bad-spr.txt", "good-spr"); // Test loading good sprite again to check label overlap.
-
-	// Test load all good sounds and music
-	RM.loadSound("sounds/explode.wav", "explode");
-	RM.loadSound("sounds/fire.wav", "fire");
-	RM.loadSound("sounds/game-over.wav", "game-over");
-	RM.loadSound("sounds/nuke.wav", "nuke");
-	RM.loadMusic("sounds/start-music.wav", "start_music");
-
-	// Test loading good sound and music again to check label overlap.
-	RM.loadSound("sounds/explode.wav", "explode");
-	RM.loadSound("sounds/start-music.wav", "start_music"); 
-
-	// Test loading nonexistent sounds and music.
-	RM.loadSound("sounds/abc.wav", "abc");
-	RM.loadMusic("sounds/abc.wav", "abc");
-
-	RM.getMusic("start_music")->play();
+	RM.loadSprite("sprites/bat-spr.txt", "bat");
+	RM.loadSprite("sprites/player-attack-spr.txt", "player-attack");
+	RM.loadSprite("sprites/player-walk-spr.txt", "player-walk");
+	RM.loadSprite("sprites/player-idle-body-spr.txt", "player-idle-body");
+	RM.loadSprite("sprites/player-idle-ffet-spr.txt", "player-idle-feet");
 }
 
 void unloadResources() {
-	RM.unloadSprite("good-spr"); // Test unloading good sprite.
-	RM.unloadSprite("bad-spr"); // Test unloading bad sprite that shouldn't be loaded.
-
-	// Test unload all music and sounds
-	RM.unloadSound("explode");
-	RM.unloadSound("fire");
-	RM.unloadSound("game-over");
-	RM.unloadSound("nuke");
-
-	RM.unloadMusic("start_music");
+	RM.unloadSprite("bat");
+	RM.unloadSprite("player-attack");
+	RM.unloadSprite("player-walk");
+	RM.unloadSprite("player-idle-body");
+	RM.unloadSprite("player-idle-feet");
 }
 
 void populateGameWorld() {
-	new df::TestObject(df::viewToWorld(df::Vector(0, 0)), df::Vector(0.4, 0)); // Draw and out test
 	
-	// Collision test
-	new df::TestObject(df::viewToWorld(df::Vector(20, 20)), df::Vector(0, 0));
-	new df::TestObject(df::viewToWorld(df::Vector(0, 20)), df::Vector(0.2, 0));
 }

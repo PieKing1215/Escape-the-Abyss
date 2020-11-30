@@ -155,8 +155,10 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
+    <ClCompile Include="EnemyMaster.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventCollision.cpp" />
     <ClCompile Include="EventKeyboard.cpp" />
@@ -164,6 +166,7 @@
     <ClCompile Include="EventOut.cpp" />
     <ClCompile Include="EventStep.cpp" />
     <ClCompile Include="EventView.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -174,11 +177,11 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectList.cpp" />
     <ClCompile Include="ObjectListIterator.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TextEntry.cpp" />
     <ClCompile Include="utility.cpp" />
     <ClCompile Include="Vector.cpp" />
@@ -189,9 +192,11 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DisplayManager.h" />
+    <ClInclude Include="EnemyMaster.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventCollision.h" />
     <ClInclude Include="EventKeyboard.h" />
@@ -199,6 +204,7 @@
     <ClInclude Include="EventOut.h" />
     <ClInclude Include="EventStep.h" />
     <ClInclude Include="EventView.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="InputManager.h" />
@@ -208,11 +214,11 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectList.h" />
     <ClInclude Include="ObjectListIterator.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="TestObject.h" />
     <ClInclude Include="TextEntry.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="Vector.h" />
