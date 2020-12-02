@@ -160,7 +160,7 @@ int df::Object::setSprite(std::string sprite_label) {
 	setBox(m_animation.getBox());
 	sprite_name = sprite_label;
 	// If there are collisions after changing the sprite.
-	if (WM.getCollisions(this).getCount() > 0) {
+	/*if (WM.getCollisions(this).getCount() > 0) {
 		writeLog("ALERT", "Error setting sprite '%s'. Collision on change. Attempting to move.", sprite_label.c_str());
 		if (old_sprite) {
 			if (!tryToMove()) {
@@ -180,7 +180,7 @@ int df::Object::setSprite(std::string sprite_label) {
 				return -1;
 			}
 		}
-	}
+	}*/
 	writeLog("", "Sprite set to '%s'.", sprite_label.c_str());
 	if (!old_sprite) {
 		return WM.insertObject(this);
