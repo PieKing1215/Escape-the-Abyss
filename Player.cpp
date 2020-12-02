@@ -106,7 +106,7 @@ void Player::tickMovement() {
 	// when not pressing left or right
 	if(!aDown && !dDown) {
 		// slow down 
-		float factor = grounded ? 0.98f : 0.85f;
+		float factor = grounded ? 0.85f : 0.98f;
 		vx *= factor;
 	}
 
