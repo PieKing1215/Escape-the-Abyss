@@ -9,9 +9,11 @@
 #include "LogManager.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
+#include "WorldManager.h"
 #include "utility.h"
 
 #include "Wall.h"
+#include "Player.h"
 
 // Function prototypes.
 void loadResources();
@@ -58,6 +60,7 @@ void loadResources() {
 	RM.loadSprite("sprites/player-walk-spr.txt", "player-walk");
 	RM.loadSprite("sprites/player-idle-body-spr.txt", "player-idle-body");
 	RM.loadSprite("sprites/player-idle-feet-spr.txt", "player-idle-feet");
+	RM.loadSprite("sprites/player-bounds.txt", "player-bounds");
 	RM.loadSprite("sprites/wall1.txt", "wall1");
 }
 
@@ -67,9 +70,39 @@ void unloadResources() {
 	RM.unloadSprite("player-walk");
 	RM.unloadSprite("player-idle-body");
 	RM.unloadSprite("player-idle-feet");
+	RM.unloadSprite("player-bounds");
 	RM.unloadSprite("wall1");
 }
 
 void populateGameWorld() {
 	
+	// make a floor for testing
+	for(int x = 0; x < 100; x++) {
+		for(int y = 0; y < 3; y++) {
+			Wall* w = new Wall();
+			int height = (int)(sin(x / 10.0f) * 2.0f + sin(x / 3.14f) * 2.0f);
+			w->setPosition({10.0f + x, 20.0f + y + height});
+		}
+	}
+
+	// spawn the player
+	Player* pl = new Player();
+	pl->setPosition({15, 14});
+	pl->setVelocity({0.5f, -0.1f});
+
+	// set world boundary to be 2 screens wide
+	int screensX = 2;
+	int screensY = 1;
+	df::Vector v = df::pixelsToSpaces(df::Vector(DM.getHorizontalPixels(), DM.getVerticalPixels())), w(DM.getHorizontal() * screensX, DM.getVertical() * screensY);
+	if(w.getX() < v.getX()) {
+		w.setX(v.getX());
+	}
+	if(w.getY() < v.getY()) {
+		w.setY(v.getY());
+	}
+	df::Box boundary = df::Box(df::Vector() - ((w - v) / 2.0), w.getX(), w.getY());
+	WM.setBoundary(boundary);
+
+	// make camera follow player
+	WM.setViewFollowing(pl);
 }

@@ -15,6 +15,8 @@
 #include "ViewObject.h"
 #include "utility.h"
 
+#include <unordered_set>
+
 df::WorldManager::WorldManager() {
 	setType("WorldManager");
 	df::Vector v = df::pixelsToSpaces(df::Vector(DM.getHorizontalPixels(), DM.getVerticalPixels())), w(DM.getHorizontal(), DM.getVertical());
@@ -204,31 +206,114 @@ int df::WorldManager::moveObject(df::Object* p_o, Vector where) {
 	if (!p_o) { // Can't move what doesn't exist.
 		return -1;
 	}
+	df::Box box0 = df::getWorldBox(p_o);
 	// Check for collision that will impede movement.
 	if (p_o->isSolid()) {
-		df::ObjectList list = getCollisions(p_o, where);
-		if (!list.isEmpty()) {
-			bool do_move = true;
-			df::ObjectListIterator li(&list);
-			li.first();
-			while (!li.isDone() && li.currentObject()) {
-				df::Object* p_temp_o = li.currentObject();
-				df::EventCollision c(p_o, p_temp_o, where);
-				// Dispatch collision event to both objects.
-				p_o->eventHandler(&c);
-				p_temp_o->eventHandler(&c);
-				if ((p_o->getSolidness() == df::Solidness::HARD && p_temp_o->getSolidness() == df::Solidness::HARD) || (p_o->getNoSoft() && p_temp_o->getSolidness() == df::Solidness::SOFT)) {
-					do_move = false; // Do not allow movement if both objects are HARD or the main object is impeded by SOFT and the other object is SOFT.
+
+		// Improved collision detection
+		// - multiple steps for greater accuracy
+		// - detects which axis any collision happens on so it can zero the X or Y velocity accordingly, instead of zeroing both
+		//
+		// For example, if an object wants to move X+5, Y+5:
+		// - move 1 step in the X direction, check for collisions
+		//   - if it collided, then it hit a wall
+		// - move 1 step in the Y direction, check for collisions
+		//   - if it collided it hit a floor or ceiling (check y velocity to determine which)
+		// - repeat for however many steps
+
+		int nSteps = 10;
+
+		Vector delta = where - p_o->getPosition();
+		Vector stepDelta = delta / nSteps;
+
+		// use unordered_set instead of vector because the separate X and Y steps could have overlapping collisions
+		std::unordered_set<Object*> collided;
+
+		// the position that the object has been "clear" to move to so far
+		Vector endPos = p_o->getPosition();
+
+		// once a collision on one axis happens, we don't need to check that axis anymore this tick
+		bool canMoveX = true;
+		bool canMoveY = true;
+		for(int step = 0; step < nSteps; step++) {
+			if(!canMoveX && !canMoveY) break;
+
+			float dx = stepDelta.getX();
+			float dy = stepDelta.getY();
+
+			if(canMoveX && dx != 0) {
+				// check for collisions one step in the X
+				df::ObjectList colX = getCollisions(p_o, endPos + df::Vector(dx, 0));
+
+				if(!colX.isEmpty()) {
+					bool do_move = true;
+					df::ObjectListIterator li(&colX);
+					li.first();
+					while(!li.isDone() && li.currentObject()) {
+						df::Object* p_temp_o = li.currentObject();
+
+						collided.insert(p_temp_o);
+						if((p_o->getSolidness() == df::Solidness::HARD && p_temp_o->getSolidness() == df::Solidness::HARD) || (p_o->getNoSoft() && p_temp_o->getSolidness() == df::Solidness::SOFT)) {
+							canMoveX = false; // Do not allow movement if both objects are HARD or the main object is impeded by SOFT and the other object is SOFT.
+						}
+						li.next();
+					}
 				}
-				li.next();
+
+				if(canMoveX) {
+					// clear to move this step
+					endPos = endPos + df::Vector(dx, 0);
+				} else {
+					// collided this step, zero X velocity
+					p_o->setVelocity({0, p_o->getVelocity().getY()});
+				}
 			}
-			if (!do_move) {
-				return -1;
+
+			if(canMoveY && dy != 0) {
+				// check for collisions one step in the Y
+				df::ObjectList colY = getCollisions(p_o, endPos + df::Vector(0, dy));
+
+				if(!colY.isEmpty()) {
+					bool do_move = true;
+					df::ObjectListIterator li(&colY);
+					li.first();
+					while(!li.isDone() && li.currentObject()) {
+						df::Object* p_temp_o = li.currentObject();
+
+						collided.insert(p_temp_o);
+						if((p_o->getSolidness() == df::Solidness::HARD && p_temp_o->getSolidness() == df::Solidness::HARD) || (p_o->getNoSoft() && p_temp_o->getSolidness() == df::Solidness::SOFT)) {
+							canMoveY = false; // Do not allow movement if both objects are HARD or the main object is impeded by SOFT and the other object is SOFT.
+						}
+						li.next();
+					}
+				}
+
+				if(canMoveY) {
+					// clear to move this step
+					endPos = endPos + df::Vector(0, dy);
+				} else {
+					// collided this step, zero Y velocity
+					p_o->setVelocity({p_o->getVelocity().getX(), 0});
+				}
 			}
+
 		}
+
+		// send collision events
+		for(auto& obj : collided) {
+			df::EventCollision c(p_o, obj, endPos);
+			// Dispatch collision event to both objects.
+			p_o->eventHandler(&c);
+			obj->eventHandler(&c);
+		}
+
+		// move to the final position
+		p_o->setPosition(endPos);
+	} else {
+		// non-solid
+		p_o->setPosition(where);
 	}
-	df::Box box0 = df::getWorldBox(p_o);
-	p_o->setPosition(where);
+
 	if (p_view_following == p_o) {
 		float view_center_x = view.getCorner().getX() + view.getHorizontal() / 2;
 		float view_center_y = view.getCorner().getY() + view.getVertical() / 2;
