@@ -63,13 +63,11 @@ df::Vector df::viewToWorld(df::Vector view_pos) {
 }
 
 std::string df::toString(int i) {
-	return toString((float)i);
+	return std::to_string(i);
 }
 
 std::string df::toString(float i) {
-	std::stringstream ss;
-	ss << i;
-	return ss.str();
+	return std::to_string(i);
 }
 
 std::string df::toString(long i) {
