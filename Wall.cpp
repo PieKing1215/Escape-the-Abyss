@@ -5,3 +5,8 @@
 */
 
 #include "Wall.h"
+
+Wall::Wall() : Object() {
+	setType("Wall");
+	setSprite("wall1");
+}

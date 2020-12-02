@@ -11,6 +11,8 @@
 #include "ResourceManager.h"
 #include "utility.h"
 
+#include "Wall.h"
+
 // Function prototypes.
 void loadResources();
 void unloadResources();
@@ -56,6 +58,7 @@ void loadResources() {
 	RM.loadSprite("sprites/player-walk-spr.txt", "player-walk");
 	RM.loadSprite("sprites/player-idle-body-spr.txt", "player-idle-body");
 	RM.loadSprite("sprites/player-idle-ffet-spr.txt", "player-idle-feet");
+	RM.loadSprite("sprites/wall1.txt", "wall1");
 }
 
 void unloadResources() {
@@ -64,6 +67,7 @@ void unloadResources() {
 	RM.unloadSprite("player-walk");
 	RM.unloadSprite("player-idle-body");
 	RM.unloadSprite("player-idle-feet");
+	RM.unloadSprite("wall1");
 }
 
 void populateGameWorld() {
