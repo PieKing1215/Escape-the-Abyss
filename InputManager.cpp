@@ -53,46 +53,6 @@ void df::InputManager::shutDown() {
 }
 
 void df::InputManager::getInput() {
-	sf::Event event;
-	while (DM.getWindow()->pollEvent(event)) { // Poll for input events.
-		// Key press event.
-		if (event.type == sf::Event::KeyPressed) {
-			df::EventKeyboard eventKeyboard;
-			eventKeyboard.setKeyboardAction(df::EventKeyboardAction::KEY_PRESSED);
-			WM.onEvent(&eventKeyboard);
-		}
-		// Key release event.
-		if (event.type == sf::Event::KeyReleased) {
-			df::EventKeyboard eventKeyboard;
-			eventKeyboard.setKeyboardAction(df::EventKeyboardAction::KEY_RELEASED);
-			WM.onEvent(&eventKeyboard);
-		}
-		// Mouse move event.
-		if (event.type == sf::Event::MouseMoved) {
-			df::EventMouse eventMouse;
-			df::Vector v((float)event.mouseMove.x * DM.getHorizontalPixels(), (float)event.mouseMove.y * DM.getVerticalPixels());
-			eventMouse.setMouseAction(df::EventMouseAction::MOVED);
-			eventMouse.setMousePosition(v);
-			WM.onEvent(&eventMouse);
-		}
-		// Mouse button press.
-		if (event.type == sf::Event::MouseButtonPressed) {
-			df::EventMouse eventMouse;
-			eventMouse.setMouseAction(df::EventMouseAction::PRESSED);
-			switch (event.mouseButton.button) {
-			case sf::Mouse::Left:
-				eventMouse.setMouseButton(df::Mouse::Button::LEFT);
-				break;
-			case sf::Mouse::Middle:
-				eventMouse.setMouseButton(df::Mouse::Button::MIDDLE);
-				break;
-			case sf::Mouse::Right:
-				eventMouse.setMouseButton(df::Mouse::Button::RIGHT);
-				break;
-			}
-			WM.onEvent(&eventMouse);
-		}
-	}
 	// Map of SFML keys to Dragonfly keys
 	sf::Keyboard::Key sfKeys[] = {
 		sf::Keyboard::Key::Space,
@@ -169,7 +129,7 @@ void df::InputManager::getInput() {
 		sf::Keyboard::Key::Num0,
 		sf::Keyboard::Key::BackSpace
 	};
-	df::Keyboard::Key dfKeys[] = { df::Keyboard::Key::UNDEFINED_KEY,
+	df::Keyboard::Key dfKeys[] = {
 		df::Keyboard::Key::SPACE,
 		df::Keyboard::Key::RETURN,
 		df::Keyboard::Key::ESCAPE,
@@ -245,11 +205,67 @@ void df::InputManager::getInput() {
 		df::Keyboard::Key::BACKSPACE
 	};
 
+	sf::Event event;
+	while (DM.getWindow()->pollEvent(event)) { // Poll for input events.
+		// Key press event.
+		if (event.type == sf::Event::KeyPressed) {
+			df::EventKeyboard eventKeyboard;
+			eventKeyboard.setKeyboardAction(df::EventKeyboardAction::KEY_PRESSED);
+
+			for(int i = 0; i < sizeof(dfKeys) / sizeof(dfKeys[0]); i++) {
+				if(sfKeys[i] == event.key.code) {
+					eventKeyboard.setKey(dfKeys[i]);
+				}
+			}
+
+			WM.onEvent(&eventKeyboard);
+		}
+		// Key release event.
+		if (event.type == sf::Event::KeyReleased) {
+			df::EventKeyboard eventKeyboard;
+			eventKeyboard.setKeyboardAction(df::EventKeyboardAction::KEY_RELEASED);
+
+			for(int i = 0; i < sizeof(dfKeys) / sizeof(dfKeys[0]); i++) {
+				if(sfKeys[i] == event.key.code) {
+					eventKeyboard.setKey(dfKeys[i]);
+				}
+			}
+
+			WM.onEvent(&eventKeyboard);
+		}
+		// Mouse move event.
+		if (event.type == sf::Event::MouseMoved) {
+			df::EventMouse eventMouse;
+			df::Vector v((float)event.mouseMove.x * DM.getHorizontalPixels(), (float)event.mouseMove.y * DM.getVerticalPixels());
+			eventMouse.setMouseAction(df::EventMouseAction::MOVED);
+			eventMouse.setMousePosition(v);
+			WM.onEvent(&eventMouse);
+		}
+		// Mouse button press.
+		if (event.type == sf::Event::MouseButtonPressed) {
+			df::EventMouse eventMouse;
+			eventMouse.setMouseAction(df::EventMouseAction::PRESSED);
+			switch (event.mouseButton.button) {
+			case sf::Mouse::Left:
+				eventMouse.setMouseButton(df::Mouse::Button::LEFT);
+				break;
+			case sf::Mouse::Middle:
+				eventMouse.setMouseButton(df::Mouse::Button::MIDDLE);
+				break;
+			case sf::Mouse::Right:
+				eventMouse.setMouseButton(df::Mouse::Button::RIGHT);
+				break;
+			}
+			WM.onEvent(&eventMouse);
+		}
+	}
+	
+
 	// Dispatch events for currently pressed keys.
 	for (int i = 0; i < sizeof(dfKeys) / sizeof(dfKeys[0]); i++) {
 		if (sf::Keyboard::isKeyPressed(sfKeys[i])) {
 			EventKeyboard eventKeyboard;
-			eventKeyboard.setKeyboardAction(df::EventKeyboardAction::KEY_PRESSED);
+			eventKeyboard.setKeyboardAction(df::EventKeyboardAction::KEY_DOWN);
 			eventKeyboard.setKey(dfKeys[i]);
 			WM.onEvent(&eventKeyboard);
 		}
