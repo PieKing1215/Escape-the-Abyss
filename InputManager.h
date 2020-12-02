@@ -9,6 +9,8 @@
 
 #include "Manager.h"
 
+#include "EventKeyboard.h"
+
 // Two-letter acronym for easier access to manager.
 #define IM df::InputManager::getInstance()
 
@@ -37,6 +39,8 @@ namespace df {
 		// Get input from the keyboard and mouse.
 		// Pass event along to all interested Objects.
 		void getInput();
+
+		bool isKeyDown(df::Keyboard::Key key);
 	};
 
 } // end of namespace df
