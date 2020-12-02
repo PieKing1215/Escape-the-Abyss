@@ -206,7 +206,7 @@ df::Box df::Object::getBox() const {
 
 int df::Object::draw() {
 	if (isVisible() && m_animation.getSprite()) {
-		return m_animation.draw(getPosition());
+		return m_animation.draw(getPosition() - df::Vector((m_animation.getSprite()->getWidth()) / 2.0f, (m_animation.getSprite()->getHeight()) / 2.0f) + df::Vector(0.5f, 0.5f));
 	}
 	return 0;
 }

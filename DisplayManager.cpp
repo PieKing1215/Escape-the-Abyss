@@ -227,11 +227,11 @@ bool df::DisplayManager::setBackgroundColor(int new_color) {
 }
 
 float df::charHeight() {
-	return ((float)DM.getHorizontalPixels()) / ((float)DM.getHorizontal());
+	return ((float)DM.getVerticalPixels()) / ((float)DM.getVertical());
 }
 
 float df::charWidth() {
-	return ((float)DM.getVerticalPixels()) / ((float)DM.getVertical());
+	return ((float)DM.getHorizontalPixels()) / ((float)DM.getHorizontal());
 }
 
 df::Vector df::spacesToPixels(Vector spaces) {
