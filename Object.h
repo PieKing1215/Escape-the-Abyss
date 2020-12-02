@@ -139,7 +139,7 @@ namespace df {
 		void setAnimation(Animation new_animation);
 
 		// Get Animation for this Object.
-		Animation getAnimation() const;
+		Animation* getAnimation();
 
 		// Draw Object Animation.
 		virtual int draw();

@@ -192,8 +192,8 @@ void df::Object::setAnimation(Animation new_animation) {
 	m_animation = new_animation;
 }
 
-df::Animation df::Object::getAnimation() const {
-	return m_animation;
+df::Animation* df::Object::getAnimation() {
+	return &m_animation;
 }
 
 void df::Object::setBox(df::Box new_box) {
