@@ -1,7 +1,14 @@
+/**
+	Basic ground enemy.
+	@file EnemySlime.cpp
+	@author David Mahany (djmahany@wpi.edu)
+*/
+
 #include "EnemySlime.h"
 
-#include "EventStep.h"
-#include "WorldManager.h"
+// Engine includes.
+#include "dragonfly/WorldManager.h"
+#include "dragonfly/EventStep.h"
 
 EnemySlime::EnemySlime() {
     setType("Slime");

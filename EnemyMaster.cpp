@@ -1,11 +1,11 @@
 /**
 	Master class of enemy. Responsible for default movement and collision handling.
 	@file EnemyMaster.cpp
-	@author
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
 */
 
 #include "EnemyMaster.h"
 
 EnemyMaster::EnemyMaster() {
-	//setSolidness(df::Solidness::SOFT);
+	
 }

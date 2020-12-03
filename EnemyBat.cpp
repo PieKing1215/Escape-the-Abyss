@@ -1,10 +1,15 @@
+/**
+	Basic flying enemy.
+	@file EnemyBat.cpp
+	@author David Mahany (djmahany@wpi.edu)
+*/
+
 #include "EnemyBat.h"
 
-#include "EventStep.h"
-
-#include "utility.h"
-
-#include "WorldManager.h"
+// Engine includes.
+#include "dragonfly/WorldManager.h"
+#include "dragonfly/EventStep.h"
+#include "dragonfly/utility.h"
 
 EnemyBat::EnemyBat() {
     setType("Bat");
