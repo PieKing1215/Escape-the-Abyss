@@ -19,7 +19,7 @@
 #include "EnemyMaster.h"
 
 
-Player::Player() : Object() {
+Player::Player() {
 	setType("Player");
 
 	auto b = getBox();
@@ -29,7 +29,7 @@ Player::Player() : Object() {
 	hasGravity(true);
 	setSprite("player-bounds");
 	
-	registerInterest(df::STEP_EVENT);
+	//registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
 	registerInterest(df::KEYBOARD_EVENT);
 }
@@ -51,7 +51,7 @@ int Player::eventHandler(const df::Event* p_e) {
 
 	} else if(p_e->getType() == df::COLLISION_EVENT) {
 		df::EventCollision* ce = (df::EventCollision*)p_e;
-		printf("%s %s\n", ce->getObject1()->getType().c_str(), ce->getObject2()->getType().c_str());
+		//printf("%s %s\n", ce->getObject1()->getType().c_str(), ce->getObject2()->getType().c_str());
 		bool enemy = dynamic_cast<EnemyMaster*>(ce->getObject1()) || dynamic_cast<EnemyMaster*>(ce->getObject2());
 		if(enemy) {
 			setVelocity({0, 0});

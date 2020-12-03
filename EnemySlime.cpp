@@ -39,9 +39,16 @@ int EnemySlime::eventHandler(const df::Event* ev) {
         }
 
         if(ground && nearPlayer) jumpCooldown--;
-        if(!nearPlayer) resetJumpCooldown();
+        if(!nearPlayer) {
+            resetJumpCooldown();
 
-        setVelocity(getVelocity() + df::Vector(0, 0.02f));
+            if(ground && rand() % 1000 == 0) {
+                hDir = ((rand() % 100) / 100.0f - 0.5f) * 0.4f;
+                float jumpStrength = 0.4f;
+                jumpStrength += (rand() % 100) / 100.0f * 0.05f;
+                setVelocity({getVelocity().getX() + hDir, -jumpStrength});
+            }
+        }
 
         if(ground) {
             setVelocity(getVelocity() * 0.8f);
@@ -59,7 +66,10 @@ int EnemySlime::eventHandler(const df::Event* ev) {
             getAnimation()->setIndex(0);
             getAnimation()->setSlowdownCount(-1);
         } else {
-            if(getAnimation()->getSlowdownCount() == -1) getAnimation()->setSlowdownCount(1);
+            if(getAnimation()->getSlowdownCount() == -1) {
+                getAnimation()->setIndex(1);
+                getAnimation()->setSlowdownCount(16);
+            }
             if(jumpCooldown < 60) {
                 // skip every 2nd and 3rd frame (effective slowdown of 9)
                 getAnimation()->setSlowdownCount(getAnimation()->getSlowdownCount() + 1 + getAnimation()->getSlowdownCount() % 2);
