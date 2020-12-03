@@ -65,9 +65,6 @@ void df::GameManager::shutDown() {
 	m_game_over = true;
 	timeEndPeriod(1);
 	writeLog("", "Stopping managers.");
-	if (FM.isStarted()) {
-		FM.shutDown();
-	}
 	IM.shutDown();
 	WM.shutDown();
 	DM.shutDown();
@@ -80,6 +77,13 @@ void df::GameManager::run() {
 	int adjust_time = 0;
 	m_step_count = 0;
 	writeLog("ALERT", "--------START GAME LOOP--------");
+	if (!FM.isStarted()) {
+		if (FM.startUp()) {
+			writeLog("ERROR", "Error starting FloorManager.");
+			setGameOver();
+			return;
+		}
+	}
 	while (!m_game_over) {
 		m_step_count++;
 
@@ -87,14 +91,6 @@ void df::GameManager::run() {
 
 		IM.getInput(); // Poll and dispatch input events.
 		WM.update(m_step_count); // Update world objects and delete pending objects.
-
-		if (!FM.isStarted()) {
-			if (FM.startUp()) {
-				writeLog("ERROR", "Error starting FloorManager.");
-				setGameOver();
-				return;
-			}
-		}
 		
 		WM.draw(); // Redraw frame.
 		DM.swapBuffers(); // Prepare buffer for new frame.
@@ -114,6 +110,9 @@ void df::GameManager::run() {
 		if (adjust_time < 0) {
 			adjust_time = 0;
 		}
+	}
+	if (FM.isStarted()) {
+		FM.shutDown();
 	}
 	writeLog("ALERT", "---------END GAME LOOP---------");
 }

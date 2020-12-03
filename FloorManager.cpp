@@ -47,11 +47,13 @@ FloorManager& FloorManager::getInstance() {
 }
 
 int FloorManager::startUp() {
+	df::Manager::startUp();
 	if (FloorManager::nextFloor()) {
+		shutDown();
 		writeLog("ERROR", "Error creating foor.");
 		return -1;
 	}
-	return df::Manager::startUp();
+	return 0;
 }
 
 void FloorManager::shutDown() {
@@ -97,12 +99,21 @@ int FloorManager::nextFloor() {
 
 	// Create floor
 	srand(currentFloor + 1);
-	int height = rand() % (maxFloorHeight - minFloorHeight) + minFloorHeight, floorHeight = 0;
-	for (int x = 0; x < 100; x++) {
+	int floorHeight = 0, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 50) - 10) * currentFloor;
+	if (enemyMultiplier <= 0) {
+		enemyMultiplier = 1;
+	}
+	const float groundToAir = (float)(rand() % 10) / 10.0;
+	const int totalEnemies = rand() % enemyMultiplier + 10;
+
+	writeLog("", "%f", groundToAir);
+
+	for (int x = 0; x < levelWidth; x++) {
+		srand((currentFloor + 1) * (x + 2) * (rand() % 50));
 		if (x % floorSize == 0) {
-			height -= rand() % (maxFloorHeight - minFloorHeight) + minFloorHeight;
+			int height = rand() % (maxFloorHeight - minFloorHeight) + minFloorHeight;
 			if (abs(height) >= (maxFloorHeight - minFloorHeight) - noise) {
-				if (height > 0 && floorHeight < maxFloorHeight) {
+				if (height >= 0 && floorHeight < maxFloorHeight) {
 					floorHeight++;
 				}
 				else if (floorHeight > minFloorHeight) {
@@ -112,6 +123,18 @@ int FloorManager::nextFloor() {
 		}
 		// simple sin wave for testing. height = (int)(sin(x / 10.0f) * 2.0f + sin(x / 3.14f) * 2.0f);
 		new Floor(df::Vector(10.0f + x, 20.0f + floorHeight));
+
+		// Check if this floor tile should have an enemy spawned above it.
+		if (x > 25 && x % (levelWidth / totalEnemies) == 0) {
+			float tmp = (float)(rand() % 10) / 10.0;
+			if (tmp < groundToAir) {
+				EnemySlime* slime = new EnemySlime();
+				slime->setPosition(df::Vector(10.0f + x, 20.0f + floorHeight - 4));
+			} else {
+				EnemyBat* bat = new EnemyBat();
+				bat->setPosition(df::Vector(10.0f + x, 20.0f + floorHeight - 6));
+			}
+		}
 	}
 
 	// Spawn the player
@@ -121,8 +144,9 @@ int FloorManager::nextFloor() {
 
 	// TODO: write any saved stats to player
 
-	// Spawn enemies
-	// temp: replace with actual generation
+
+
+	/* temp: replace with actual generation
 	for(int i = 0; i < 5; i++) {
 		EnemySlime* slime = new EnemySlime();
 		slime->setPosition({40.0f + 8 * i, 5});
@@ -130,13 +154,13 @@ int FloorManager::nextFloor() {
 	for(int i = 0; i < 5; i++) {
 		EnemyBat* slime = new EnemyBat();
 		slime->setPosition({40.0f + 8 * i, 3});
-	}
+	} */
 
 	// Make camera follow player
 	WM.setViewFollowing(pl);
 
 	currentFloor++;
-
+	              
 	// TODO: load custom settings for next floor if implemented
 
 	return 0;
