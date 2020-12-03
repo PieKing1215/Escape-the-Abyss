@@ -6,7 +6,7 @@
 
 #include "WorldManager.h"
 
-EnemyBat::EnemyBat() : EnemyMaster() {
+EnemyBat::EnemyBat() {
     setType("Bat");
     setSprite("bat");
 
@@ -14,7 +14,7 @@ EnemyBat::EnemyBat() : EnemyMaster() {
     b = df::Box(df::Vector(b.getCorner().getX() + 0.5f, b.getCorner().getY() + 0.25f), b.getHorizontal() - 1.0f, b.getVertical() - 0.5f);
     setBox(b);
 
-    registerInterest(df::STEP_EVENT);
+    //registerInterest(df::STEP_EVENT);
 
     // not important enough to use a good rng so just use rand
     randomOffset = rand() % 1000;

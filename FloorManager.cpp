@@ -14,6 +14,8 @@
 #include "Floor.h"
 #include "Player.h"
 
+#include "EnemySlime.h"
+
 FloorManager::FloorManager() {
 	setType("FloorManager");
 	// TODO: set this based on save file read.

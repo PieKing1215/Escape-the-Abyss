@@ -6,6 +6,6 @@
 
 #include "EnemyMaster.h"
 
-EnemyMaster::EnemyMaster() : Object() {
+EnemyMaster::EnemyMaster() {
 	//setSolidness(df::Solidness::SOFT);
 }

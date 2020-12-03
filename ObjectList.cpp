@@ -70,7 +70,7 @@ int df::ObjectList::insert(df::Object* p_o) {
 int df::ObjectList::remove(df::Object* p_o) {
 	for (int i = 0; i < m_count; i++) {
 		if (m_p_obj[i] == p_o) {
-			for (int j = 0; j < m_count; j++) {
+			for (int j = i; j < m_count; j++) {
 				m_p_obj[j] = m_p_obj[j + 1];
 			}
 			m_count--;
