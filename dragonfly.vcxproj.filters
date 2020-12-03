@@ -120,6 +120,12 @@
     <ClCompile Include="Wall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySlime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -225,6 +231,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySlime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

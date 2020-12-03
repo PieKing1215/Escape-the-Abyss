@@ -21,8 +21,6 @@ public:
 
 	virtual int draw();
 
-	bool isGrounded();
-
 	void tickMovement();
 	void jump();
 	void endJump();

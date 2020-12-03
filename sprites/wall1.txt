@@ -2,7 +2,7 @@
 frames 1
 width 1
 height 1
-color green
+color blue
 </HEADER>
 <BODY>
 X

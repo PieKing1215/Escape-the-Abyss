@@ -80,7 +80,7 @@
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -122,13 +122,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>G:\Windows Libraries\Documents\Visual Studio 2019\Projects\SFML-2.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Windows Libraries\Documents\Visual Studio 2019\Projects\SFML-2.5\include;..\SFML-2.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
+      <Optimization>Disabled</Optimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>G:\Windows Libraries\Documents\Visual Studio 2019\Projects\SFML-2.5\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>G:\Windows Libraries\Documents\Visual Studio 2019\Projects\SFML-2.5\lib;..\SFML-2.5\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -140,14 +142,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>G:\Windows Libraries\Documents\Visual Studio 2019\Projects\SFML-2.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Windows Libraries\Documents\Visual Studio 2019\Projects\SFML-2.5\include;..\SFML-2.5\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>G:\Windows Libraries\Documents\Visual Studio 2019\Projects\SFML-2.5\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>G:\Windows Libraries\Documents\Visual Studio 2019\Projects\SFML-2.5\lib;..\SFML-2.5\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -155,6 +157,8 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="EnemyBat.cpp" />
+    <ClCompile Include="EnemySlime.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
@@ -192,6 +196,8 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="EnemyBat.h" />
+    <ClInclude Include="EnemySlime.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Color.h" />

@@ -48,7 +48,7 @@ df::Box df::getWorldBox(const df::Object* p_o) {
 }
 
 df::Box df::getWorldBox(const Object* p_o, df::Vector where) {
-	df::Box box = ((Object*)p_o)->getAnimation()->getBox();
+	df::Box box = ((Object*)p_o)->getBox();
 	return df::Box(where + box.getCorner(), box.getHorizontal(), box.getVertical());
 }
 

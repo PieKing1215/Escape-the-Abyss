@@ -11,6 +11,7 @@
 #include "LogManager.h"
 #include "ResourceManager.h"
 #include "WorldManager.h"
+#include "DisplayManager.h"
 #include "EventStep.h"
 #include "utility.h"
 
@@ -205,6 +206,23 @@ df::Box df::Object::getBox() const {
 }
 
 int df::Object::draw() {
+
+	/*float x = getPosition().getX();
+	float y = getPosition().getY();
+	float corner_x = x + getBox().getCorner().getX();
+	float corner_y = y + getBox().getCorner().getY();
+	float horizontal = getBox().getHorizontal();
+	float vert = getBox().getVertical();
+	Vector ul(corner_x, corner_y);
+	Vector ur(corner_x + horizontal, corner_y);
+	Vector ll(corner_x, corner_y + vert);
+	Vector lr(corner_x + horizontal, corner_y + vert);
+	Vector mi(x, y);
+	DM.drawCh(ul, '+', df::Color::WHITE);
+	DM.drawCh(ur, '+', df::Color::WHITE);
+	DM.drawCh(ll, '+', df::Color::WHITE);
+	DM.drawCh(lr, '+', df::Color::WHITE);*/
+
 	if (isVisible() && m_animation.getSprite()) {
 		return m_animation.draw(getPosition() - df::Vector((m_animation.getSprite()->getWidth()) / 2.0f, (m_animation.getSprite()->getHeight()) / 2.0f) + df::Vector(0.5f, 0.5f));
 	}
@@ -300,4 +318,9 @@ bool df::Object::tryToMove() {
 	}
 	writeLog("", "Location nearby found. Moved to %f %f", df::toString(v));
 	return true;
+}
+
+bool df::Object::isGrounded() {
+	// probably on the ground if we would collide with something if we moved slightly downwards
+	return !WM.getCollisions(this, getPosition() + df::Vector(0, 0.05f)).isEmpty();
 }

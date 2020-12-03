@@ -14,6 +14,8 @@
 
 #include "Wall.h"
 #include "Player.h"
+#include "EnemyBat.h"
+#include "EnemySlime.h"
 
 // Function prototypes.
 void loadResources();
@@ -56,6 +58,7 @@ int main(int argc, char* argv[]) {
 
 void loadResources() {
 	RM.loadSprite("sprites/bat-spr.txt", "bat");
+	RM.loadSprite("sprites/slime-spr.txt", "slime");
 	RM.loadSprite("sprites/player-attack-spr.txt", "player-attack");
 	RM.loadSprite("sprites/player-walk-spr.txt", "player-walk");
 	RM.loadSprite("sprites/player-idle-body-spr.txt", "player-idle-body");
@@ -66,6 +69,7 @@ void loadResources() {
 
 void unloadResources() {
 	RM.unloadSprite("bat");
+	RM.unloadSprite("slime");
 	RM.unloadSprite("player-attack");
 	RM.unloadSprite("player-walk");
 	RM.unloadSprite("player-idle-body");
@@ -84,6 +88,18 @@ void populateGameWorld() {
 			w->setPosition({10.0f + x, 20.0f + y + height});
 		}
 	}
+
+	Wall* wa = new Wall();
+	wa->setPosition({27, 15});
+
+	// spawn some enemies
+	EnemyBat* bat = new EnemyBat();
+	bat->setPosition({30, 8});
+	EnemyBat* bat2 = new EnemyBat();
+	bat2->setPosition({50, 8});
+	EnemySlime* slime = new EnemySlime();
+	slime->setPosition({40, 15});
+	slime->setVelocity({0, 0.1});
 
 	// spawn the player
 	Player* pl = new Player();

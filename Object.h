@@ -179,6 +179,8 @@ namespace df {
 
 		// Try to move object so it isn't colliding
 		bool tryToMove();
+
+		bool isGrounded();
 	};
 } // end of namespace df
 #endif // __OBJECT_H__
