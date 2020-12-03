@@ -16,13 +16,20 @@
 
 #include "dragonfly/utility.h"
 
+#include "EnemyMaster.h"
 
-Player::Player() : Object() {
+
+Player::Player() {
 	setType("Player");
+
+	auto b = getBox();
+	b = df::Box(df::Vector(b.getCorner().getX() + 0.25f, b.getCorner().getY() + 0.5f), b.getHorizontal() - 0.5f, b.getVertical() - 0.5f);
+	setBox(b);
+
 	hasGravity(true);
 	setSprite("player-bounds");
 	
-	registerInterest(df::STEP_EVENT);
+	//registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
 	registerInterest(df::KEYBOARD_EVENT);
 }
@@ -46,7 +53,13 @@ int Player::eventHandler(const df::Event* p_e) {
 		}
 
 	} else if(p_e->getType() == df::COLLISION_EVENT) {
-
+		df::EventCollision* ce = (df::EventCollision*)p_e;
+		//printf("%s %s\n", ce->getObject1()->getType().c_str(), ce->getObject2()->getType().c_str());
+		bool enemy = dynamic_cast<EnemyMaster*>(ce->getObject1()) || dynamic_cast<EnemyMaster*>(ce->getObject2());
+		if(enemy) {
+			setVelocity({0, 0});
+			WM.markForDelete(this);
+		}
 	}
 
 	return 0;
@@ -84,11 +97,6 @@ int Player::draw() {
 	RM.getSprite("player-walk")->draw(legFrame, this->getPosition() + df::Vector(-1, 0.2f + 1));
 
 	return Object::draw();
-}
-
-bool Player::isGrounded() {
-	// probably on the ground if we would collide with something if we moved slightly downwards
-	return !WM.getCollisions(this, getPosition() + df::Vector(0, 0.05f)).isEmpty();
 }
 
 void Player::tickMovement() {

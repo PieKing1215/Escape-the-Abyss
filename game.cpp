@@ -12,6 +12,11 @@
 #include "dragonfly/WorldManager.h"
 #include "dragonfly/utility.h"
 
+#include "Wall.h"
+#include "Player.h"
+#include "EnemyBat.h"
+#include "EnemySlime.h"
+
 // Function prototypes.
 void loadResources();
 void unloadResources();
@@ -53,6 +58,7 @@ int main(int argc, char* argv[]) {
 
 void loadResources() {
 	RM.loadSprite("sprites/bat-spr.txt", "bat");
+	RM.loadSprite("sprites/slime-spr.txt", "slime");
 	RM.loadSprite("sprites/player-attack-spr.txt", "player-attack");
 	RM.loadSprite("sprites/player-walk-spr.txt", "player-walk");
 	RM.loadSprite("sprites/player-idle-body-spr.txt", "player-idle-body");
@@ -63,6 +69,7 @@ void loadResources() {
 
 void unloadResources() {
 	RM.unloadSprite("bat");
+	RM.unloadSprite("slime");
 	RM.unloadSprite("player-attack");
 	RM.unloadSprite("player-walk");
 	RM.unloadSprite("player-idle-body");

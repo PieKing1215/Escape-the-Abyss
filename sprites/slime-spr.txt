@@ -1,13 +1,16 @@
 <HEADER>
-frames 1
+frames 2
 width 3
 height 2
-color yellow
-slowdown 4
+color green
+slowdown 24
 </HEADER>
 <BODY>
- 0 
- | 
+ _ 
+{ }
+end
+   
+(¯)
 end
 </BODY>
 <FOOTER>

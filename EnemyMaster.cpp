@@ -5,3 +5,7 @@
 */
 
 #include "EnemyMaster.h"
+
+EnemyMaster::EnemyMaster() {
+	//setSolidness(df::Solidness::SOFT);
+}

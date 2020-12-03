@@ -2,7 +2,7 @@
 frames 1
 width 3
 height 1
-color green
+color yellow
 slowdown 4
 </HEADER>
 <BODY>
