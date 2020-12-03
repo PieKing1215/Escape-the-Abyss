@@ -8,7 +8,7 @@
 #define __FLOOR_MANAGER_H__
 
 // Engine includes.
-#include "Manager.h"
+#include "dragonfly/Manager.h"
 
 #define FM FloorManager::getInstance()
 

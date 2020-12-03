@@ -7,7 +7,7 @@
 #ifndef __FLOOR__
 #define __FLOOR__
 
-#include "Object.h"
+#include "dragonfly/Object.h"
 
 class Floor : public df::Object {
 public:

@@ -5,12 +5,12 @@
 */
 
 // Engine includes.
-#include "DisplayManager.h"
-#include "LogManager.h"
-#include "GameManager.h"
-#include "ResourceManager.h"
-#include "WorldManager.h"
-#include "utility.h"
+#include "dragonfly/DisplayManager.h"
+#include "dragonfly/LogManager.h"
+#include "dragonfly/GameManager.h"
+#include "dragonfly/ResourceManager.h"
+#include "dragonfly/WorldManager.h"
+#include "dragonfly/utility.h"
 
 // Function prototypes.
 void loadResources();

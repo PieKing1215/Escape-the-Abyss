@@ -6,15 +6,15 @@
 
 #include "Player.h"
 
-#include "ResourceManager.h"
-#include "InputManager.h"
-#include "WorldManager.h"
+#include "dragonfly/ResourceManager.h"
+#include "dragonfly/InputManager.h"
+#include "dragonfly/WorldManager.h"
 
-#include "EventStep.h"
-#include "EventCollision.h"
-#include "EventKeyboard.h"
+#include "dragonfly/EventStep.h"
+#include "dragonfly/EventCollision.h"
+#include "dragonfly/EventKeyboard.h"
 
-#include "utility.h"
+#include "dragonfly/utility.h"
 
 
 Player::Player() : Object() {
@@ -31,14 +31,17 @@ int Player::eventHandler(const df::Event* p_e) {
 
 	if(p_e->getType() == df::STEP_EVENT) {
 		tickMovement();
+		return 1;
 	} else if(p_e->getType() == df::KEYBOARD_EVENT) {
 		df::EventKeyboard* ke = (df::EventKeyboard*)p_e;
 
 		if(ke->getKey() == df::Keyboard::Key::SPACE) {
 			if(ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
 				jump();
+				return 1;
 			} else if(ke->getKeyboardAction() == df::EventKeyboardAction::KEY_RELEASED) {
 				endJump();
+				return 1;
 			}
 		}
 

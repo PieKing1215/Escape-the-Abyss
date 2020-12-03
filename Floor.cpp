@@ -7,8 +7,8 @@
 #include "Floor.h"
 
 // Engine includes.
-#include "DisplayManager.h"
-#include "WorldManager.h"
+#include "dragonfly/DisplayManager.h"
+#include "dragonfly/WorldManager.h"
 
 Floor::Floor(df::Vector pos) {
 	setType("Floor");

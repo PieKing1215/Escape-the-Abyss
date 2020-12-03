@@ -7,8 +7,8 @@
 #include "FloorManager.h"
 
 // Engine inludes.
-#include "LogManager.h"
-#include "WorldManager.h"
+#include "dragonfly/LogManager.h"
+#include "dragonfly/WorldManager.h"
 
 // Game includes.
 #include "Floor.h"
