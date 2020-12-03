@@ -15,6 +15,7 @@
 #include "Player.h"
 
 #include "EnemySlime.h"
+#include "EnemyBat.h"
 
 FloorManager::FloorManager() {
 	setType("FloorManager");
@@ -121,6 +122,15 @@ int FloorManager::nextFloor() {
 	// TODO: write any saved stats to player
 
 	// Spawn enemies
+	// temp: replace with actual generation
+	for(int i = 0; i < 5; i++) {
+		EnemySlime* slime = new EnemySlime();
+		slime->setPosition({40.0f + 8 * i, 5});
+	}
+	for(int i = 0; i < 5; i++) {
+		EnemyBat* slime = new EnemyBat();
+		slime->setPosition({40.0f + 8 * i, 3});
+	}
 
 	// Make camera follow player
 	WM.setViewFollowing(pl);
