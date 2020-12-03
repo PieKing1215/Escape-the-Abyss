@@ -20,13 +20,15 @@
 
 
 Player::Player() : Object() {
-	setSprite("player-bounds");
 	setType("Player");
 
 	auto b = getBox();
 	b = df::Box(df::Vector(b.getCorner().getX() + 0.25f, b.getCorner().getY() + 0.5f), b.getHorizontal() - 0.5f, b.getVertical() - 0.5f);
 	setBox(b);
 
+	hasGravity(true);
+	setSprite("player-bounds");
+	
 	registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
 	registerInterest(df::KEYBOARD_EVENT);
@@ -97,9 +99,6 @@ int Player::draw() {
 void Player::tickMovement() {
 	float vx = getVelocity().getX();
 	float vy = getVelocity().getY();
-
-	// gravity (will be replaced with the world doing gravity)
-	vy += 0.02f;
 
 	// state of the relevant inputs
 	bool aDown = IM.isKeyDown(df::Keyboard::Key::A);

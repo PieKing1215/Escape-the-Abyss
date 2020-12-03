@@ -106,6 +106,11 @@ std::string df::getTimeString() {
 
 int df::rand() {
 	srand(g_next);
-	g_next = ((5 * g_next) + 1) % 16;
-	return g_next;
+	return rand();
+}
+
+int df::rand(unsigned long seed) {
+	srand(seed);
+	g_next = seed;
+	return rand();
 }

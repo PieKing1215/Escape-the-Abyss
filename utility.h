@@ -53,7 +53,10 @@ namespace df {
 	// Return the current time as a formatted time string: HH:MM:SS.MMMM
 	std::string getTimeString();
 
-	//unsigned long RANDOM_SEED = 0;
+	// Generate random integer
 	int rand();
+
+	// Generate random integer with seed specified. Subsequent calls of rand() are based on this seed and it's generated numbers.
+	int rand(unsigned long seed);
 } // end of namespace df
 #endif // __UTILITY_H__
