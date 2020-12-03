@@ -38,6 +38,7 @@ df::Object::Object() {
 	is_active = true;
 	is_visible = true;
 	overlapHandle = df::OverlapHandle::ATTEMPT_TO_MOVE;
+	has_gravity = false;
 	WM.registerInterest(this, df::STEP_EVENT);
 
 	writeLog("", "Spawned. Awaiting sprite or manual insert for world insertion.");
@@ -133,6 +134,14 @@ void df::Object::setVelocity(df::Vector new_velocity) {
 df::Vector df::Object::getVelocity() const {
 	df::Vector v(m_direction.getX() * m_speed, m_direction.getY() * m_speed);
 	return v;
+}
+
+void df::Object::hasGravity(bool new_has_gravity) {
+	has_gravity = new_has_gravity;
+}
+
+bool df::Object::hasGravity() const {
+	return has_gravity;
 }
 
 df::Vector df::Object::predictPosition() {

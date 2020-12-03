@@ -20,6 +20,7 @@
 Player::Player() : Object() {
 	setSprite("player-bounds");
 	setType("Player");
+	hasGravity(true);
 	
 	registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
@@ -90,9 +91,6 @@ bool Player::isGrounded() {
 void Player::tickMovement() {
 	float vx = getVelocity().getX();
 	float vy = getVelocity().getY();
-
-	// gravity (will be replaced with the world doing gravity)
-	vy += 0.02f;
 
 	// state of the relevant inputs
 	bool aDown = IM.isKeyDown(df::Keyboard::Key::A);

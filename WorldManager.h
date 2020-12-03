@@ -17,6 +17,7 @@
 #define WM df::WorldManager::getInstance()
 
 namespace df {
+	const float GRAVITY = 0.05; // Velocity in positive y (down) added every frame
 	class WorldManager : public Manager {
 	private:
 		WorldManager();                 // Private since a singleton.

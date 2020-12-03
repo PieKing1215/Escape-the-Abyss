@@ -163,6 +163,10 @@ void df::WorldManager::update(int step_count) {
 	df::EventStep e_step(step_count);
 	std::string x = "";
 	while (!toUpdate.isDone() && toUpdate.currentObject()) {
+		if (toUpdate.currentObject()->hasGravity()) {
+			df::Vector currentVelocity = toUpdate.currentObject()->getVelocity();
+			toUpdate.currentObject()->setVelocity(df::Vector(currentVelocity.getX(), currentVelocity.getY() + df::GRAVITY));
+		}
 		df::Vector new_pos = toUpdate.currentObject()->predictPosition();
 		if (new_pos != toUpdate.currentObject()->getPosition()) {
 			moveObject(toUpdate.currentObject(), new_pos);
