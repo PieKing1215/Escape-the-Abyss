@@ -7,12 +7,13 @@
 #include "GameManager.h"
 
 // Engine includes.
-#include "LogManager.h"
-#include "Clock.h"
 #include "DisplayManager.h"
+#include "FloorManager.h"
 #include "InputManager.h"
-#include "ObjectListIterator.h"
+#include "LogManager.h"
 #include "WorldManager.h"
+#include "Clock.h"
+#include "ObjectListIterator.h"
 #include "EventStep.h"
 
 // System includes.
@@ -57,7 +58,6 @@ int df::GameManager::startUp() {
 		return -1;
 	}
 	df::Manager::startUp();
-	writeLog("", "Started.");
 	return 0;
 }
 
@@ -65,6 +65,9 @@ void df::GameManager::shutDown() {
 	m_game_over = true;
 	timeEndPeriod(1);
 	writeLog("", "Stopping managers.");
+	if (FM.isStarted()) {
+		FM.shutDown();
+	}
 	IM.shutDown();
 	WM.shutDown();
 	DM.shutDown();
@@ -84,6 +87,14 @@ void df::GameManager::run() {
 
 		IM.getInput(); // Poll and dispatch input events.
 		WM.update(m_step_count); // Update world objects and delete pending objects.
+
+		if (!FM.isStarted()) {
+			if (FM.startUp()) {
+				writeLog("ERROR", "Error starting FloorManager.");
+				setGameOver();
+				return;
+			}
+		}
 		
 		WM.draw(); // Redraw frame.
 		DM.swapBuffers(); // Prepare buffer for new frame.

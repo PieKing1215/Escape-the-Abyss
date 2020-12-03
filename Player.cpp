@@ -18,9 +18,9 @@
 
 
 Player::Player() : Object() {
-	setSprite("player-bounds");
 	setType("Player");
 	hasGravity(true);
+	setSprite("player-bounds");
 	
 	registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);

@@ -155,6 +155,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Color.h" />
