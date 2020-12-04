@@ -19,8 +19,8 @@ df::Manager::Manager() {
 	m_type = "Manager";
 	m_is_started = false;
 	event_count = 0;
-	event;
-	obj_list;
+	event = new std::string[MAX_EVENTS];
+	obj_list = new df::ObjectList[MAX_EVENTS];
 }
 
 df::Manager::~Manager() {

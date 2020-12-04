@@ -72,11 +72,11 @@ int df::WorldManager::startUp() {
 void df::WorldManager::shutDown() {
 	// Destroy all objects in the scene graph.
 	writeLog("", "Killing all Objects.");
-	m_deletions = getAllObjects();
+	df::ObjectList m_deletions = getAllObjects();
 	df::ObjectListIterator li(&m_deletions);
 	li.first();
 	while (!li.isDone() && li.currentObject()) {
-		delete li.currentObject(); // TODO: there is something wrong here. li.currentObject() on safe shutdown throws an access violation.
+		delete li.currentObject();
 		li.next();
 	}
 	m_deletions.clear();
