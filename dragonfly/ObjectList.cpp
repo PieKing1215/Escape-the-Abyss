@@ -26,7 +26,8 @@ df::ObjectList::ObjectList(const df::ObjectList& other) {
 	}
 }
 df::ObjectList::~ObjectList() {
-	free(m_p_obj);
+	// Freeing the memory here causes a read violation on shutdown. Shouldn't really matter, but it should be known.
+	// free(m_p_obj);
 }
 
 bool df::ObjectList::operator==(const df::ObjectList& rhs) {
