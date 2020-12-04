@@ -131,15 +131,17 @@ void df::WorldManager::update(int step_count) {
 	df::EventStep e_step(step_count);
 	std::string x = "";
 	while (!toUpdate.isDone() && toUpdate.currentObject()) {
-		if (toUpdate.currentObject()->hasGravity()) {
-			df::Vector currentVelocity = toUpdate.currentObject()->getVelocity();
-			toUpdate.currentObject()->setVelocity(df::Vector(currentVelocity.getX(), currentVelocity.getY() + df::GRAVITY));
+		if (df::boxIntersectsBox(df::getWorldBox(toUpdate.currentObject()), df::Box(view.getCorner() - 20, view.getHorizontal() + 40, view.getVertical() + 40))) {
+			if (toUpdate.currentObject()->hasGravity()) {
+				df::Vector currentVelocity = toUpdate.currentObject()->getVelocity();
+				toUpdate.currentObject()->setVelocity(df::Vector(currentVelocity.getX(), currentVelocity.getY() + df::GRAVITY));
+			}
+			df::Vector new_pos = toUpdate.currentObject()->predictPosition();
+			if (new_pos != toUpdate.currentObject()->getPosition()) {
+				moveObject(toUpdate.currentObject(), new_pos);
+			}
+			toUpdate.currentObject()->eventHandler(&e_step);
 		}
-		df::Vector new_pos = toUpdate.currentObject()->predictPosition();
-		if (new_pos != toUpdate.currentObject()->getPosition()) {
-			moveObject(toUpdate.currentObject(), new_pos);
-		}
-		toUpdate.currentObject()->eventHandler(&e_step);
 		toUpdate.next();
 	}
 }

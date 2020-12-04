@@ -90,17 +90,6 @@ void FloorManager::setNoise(int new_noise) {
 }
 
 int FloorManager::nextFloor() {
-	// Clear all objects
-	/*df::ObjectList ol = WM.getAllObjects();
-	df::ObjectListIterator li(&ol);
-	li.first();
-	while (!li.isDone()) {
-		if (li.currentObject()->getType() != "Player") {
-			WM.markForDelete(li.currentObject());
-		}
-		li.next();
-	}*/
-
 	// Create floor
 	srand(currentFloor + 1);
 	int floorHeight = previousEndHeight, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 100) - 5) * currentFloor, enemies = 0;
