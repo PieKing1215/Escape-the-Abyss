@@ -1,0 +1,24 @@
+<HEADER>
+frames 4
+width 5
+height 2
+color white
+slowdown 3
+</HEADER>
+<BODY>
+     
+     
+end
+    /
+   / 
+end
+     
+   --
+end
+     
+   - 
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

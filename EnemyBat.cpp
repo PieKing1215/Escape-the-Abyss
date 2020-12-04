@@ -32,7 +32,7 @@ int EnemyBat::eventHandler(const df::Event* ev) {
         // randomOffset shifts the sines around a bit so that different bats have different movement
         long time = df::getTime();
         float dx = sin((time + randomOffset * 1.0) / 310.1) / 10.0f + sin((time + randomOffset * 2.0) / 500.1) / 10.0f + sin((time + randomOffset * 7.0) / 221.6) / 20.0f + sin((time + randomOffset * 4.0) / 104.2) / 20.0f;
-        float dy = sin((time + randomOffset * 1.1) / 580.1) / 10.0f + sin((time + randomOffset * 5.0) / 377.3) / 10.0f + sin((time + randomOffset * 2.0) / 202.7) / 20.0f + sin((time + randomOffset * 3.0) / 82.4) / 20.0f;
+        float dy = sin((time + randomOffset * 1.1) / 580.1) / 12.0f + sin((time + randomOffset * 5.0) / 377.3) / 12.0f + sin((time + randomOffset * 2.0) / 202.7) / 20.0f + sin((time + randomOffset * 3.0) / 82.4) / 10.0f;
 
         df::ObjectList ol = WM.getSceneGraph().activeObjects();
         df::ObjectListIterator toUpdate(&ol);
@@ -47,8 +47,8 @@ int EnemyBat::eventHandler(const df::Event* ev) {
 
                     df::Vector mov(pdx, pdy);
                     mov.normalize();
-                    dx += -mov.getX() / 3.0f;
-                    dy += -mov.getY() / 3.0f;
+                    dx += -mov.getX() / 2.0f;
+                    dy += -mov.getY() / 4.0f;
                 }
             }
             toUpdate.next();

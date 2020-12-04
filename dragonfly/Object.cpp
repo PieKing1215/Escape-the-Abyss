@@ -331,5 +331,13 @@ bool df::Object::tryToMove() {
 
 bool df::Object::isGrounded() {
 	// probably on the ground if we would collide with something if we moved slightly downwards
-	return !WM.getCollisions(this, getPosition() + df::Vector(0, 0.05f)).isEmpty();
+
+	auto obj = WM.getCollisions(this, getPosition() + df::Vector(0, 0.05f));
+	df::ObjectListIterator li(&obj);
+	li.first();
+	while(!li.isDone()) {
+		if(li.currentObject()->getSolidness() == df::Solidness::HARD) return true;
+		li.next();
+	}
+	return false;
 }

@@ -41,7 +41,7 @@ namespace df {
 	const float FONT_SCALE_DEFAULT = 2.0;
 	const bool HEADLESS = false;
 	const bool VSYNC = true;
-	const bool SHOW_MOUSE = false;
+	const bool SHOW_MOUSE = true;
 
 	// Compute character height, based on window size and font.
 	float charHeight(void);

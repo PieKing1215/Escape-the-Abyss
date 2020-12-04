@@ -244,7 +244,7 @@ void df::InputManager::getInput() {
 		// Mouse button press.
 		if (event.type == sf::Event::MouseButtonPressed) {
 			df::EventMouse eventMouse;
-			eventMouse.setMouseAction(df::EventMouseAction::PRESSED);
+			eventMouse.setMouseAction(df::EventMouseAction::CLICKED);
 			switch (event.mouseButton.button) {
 			case sf::Mouse::Left:
 				eventMouse.setMouseButton(df::Mouse::Button::LEFT);
@@ -256,6 +256,7 @@ void df::InputManager::getInput() {
 				eventMouse.setMouseButton(df::Mouse::Button::RIGHT);
 				break;
 			}
+			eventMouse.setMousePosition({(float)event.mouseButton.x, (float)event.mouseButton.y});
 			WM.onEvent(&eventMouse);
 		}
 	}

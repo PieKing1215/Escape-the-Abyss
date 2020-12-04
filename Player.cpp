@@ -9,10 +9,12 @@
 #include "dragonfly/ResourceManager.h"
 #include "dragonfly/InputManager.h"
 #include "dragonfly/WorldManager.h"
+#include "dragonfly/DisplayManager.h"
 
 #include "dragonfly/EventStep.h"
 #include "dragonfly/EventCollision.h"
 #include "dragonfly/EventKeyboard.h"
+#include "dragonfly/EventMouse.h"
 
 #include "dragonfly/utility.h"
 
@@ -29,14 +31,21 @@ Player::Player() {
 	hasGravity(true);
 	setSprite("player-bounds");
 	
+	health = maxHealth = 5.0f;
+
 	//registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
 	registerInterest(df::KEYBOARD_EVENT);
+	registerInterest(df::MSE_EVENT);
 }
 
 int Player::eventHandler(const df::Event* p_e) {
 
 	if(p_e->getType() == df::STEP_EVENT) {
+
+		if(attackCooldown > 0) attackCooldown--;
+		if(invulnerability > 0) invulnerability--;
+
 		tickMovement();
 		return 1;
 	} else if(p_e->getType() == df::KEYBOARD_EVENT) {
@@ -52,13 +61,25 @@ int Player::eventHandler(const df::Event* p_e) {
 			}
 		}
 
+	} else if(p_e->getType() == df::MSE_EVENT) {
+		df::EventMouse* me = (df::EventMouse*)p_e;
+
+		if(attackCooldown == 0 && me->getMouseAction() == df::EventMouseAction::CLICKED && me->getMouseButton() == df::Mouse::Button::LEFT) {
+			attackCooldown = 40;
+			df::Vector ppos = df::spacesToPixels(df::worldToView(getPosition()));
+			auto dpos = me->getMousePosition() - ppos;
+			//printf("%f %f %f %f %f %f\n", ppos.getX(), ppos.getY(), me->getMousePosition().getX(), me->getMousePosition().getY(), dpos.getX(), dpos.getY());
+			PlayerAttack* atk = new PlayerAttack(this, dpos.getX() < 0);
+			atk->setPosition(this->getPosition() + df::Vector(0, -0.5f));
+		}
+
 	} else if(p_e->getType() == df::COLLISION_EVENT) {
 		df::EventCollision* ce = (df::EventCollision*)p_e;
 		//printf("%s %s\n", ce->getObject1()->getType().c_str(), ce->getObject2()->getType().c_str());
-		bool enemy = dynamic_cast<EnemyMaster*>(ce->getObject1()) || dynamic_cast<EnemyMaster*>(ce->getObject2());
-		if(enemy) {
-			setVelocity({0, 0});
-			WM.markForDelete(this);
+		if(dynamic_cast<EnemyMaster*>(ce->getObject1())) {
+			damage(1.0f, ce->getObject1()->getPosition());
+		}else if(dynamic_cast<EnemyMaster*>(ce->getObject2())) {
+			damage(1.0f, ce->getObject2()->getPosition());
 		}
 	}
 
@@ -70,9 +91,9 @@ int Player::draw() {
 	// since we the player's legs and body animate separately, we need to use a combination of multiple sprites
 	// the Object's "real" sprite (using setSprite) is "player-bounds" which is a 2x3, completely empty sprite only used for collisions
 
-	// TODO: attacking animations, etc
-	RM.getSprite("player-idle-body")->draw(0, this->getPosition() + df::Vector(-1, -1));
+	bool flash = invulnerability % 6 >= 5;
 
+	if(!flash) RM.getSprite("player-idle-body")->draw(0, this->getPosition() + df::Vector(-1, -1));
 
 	// decide which frame for the legs
 	// 0 = "/ \"
@@ -94,7 +115,7 @@ int Player::draw() {
 		}
 	}
 
-	RM.getSprite("player-walk")->draw(legFrame, this->getPosition() + df::Vector(-1, 0.2f + 1));
+	if(!flash) RM.getSprite("player-walk")->draw(legFrame, this->getPosition() + df::Vector(-1, 0.2f + 1));
 
 	return Object::draw();
 }
@@ -156,4 +177,89 @@ void Player::endJump() {
 	if(getVelocity().getY() < 0) {
 		setVelocity({getVelocity().getX(), getVelocity().getY() * 0.5f});
 	}
+}
+
+void Player::damage(float damage, df::Vector source) {
+	if(invulnerability > 0) return;
+
+	health -= damage;
+	if(health <= 0) {
+		health = 0;
+		die();
+	}
+	invulnerability = 60;
+
+	float knockStrength = 0.4f + (rand() % 100) / 100.0f * 0.15f;
+	int knockDir = source.getX() > getPosition().getX() ? -1 : 1;
+	setVelocity({getVelocity().getX() + knockStrength * knockDir, getVelocity().getY() - 0.35f});
+}
+
+void Player::die() {
+	setVelocity({0, 0});
+	WM.setViewFollowing(NULL);
+	WM.markForDelete(this);
+}
+
+PlayerAttack::PlayerAttack(Player* pl, bool left) {
+	setSolidness(df::Solidness::SOFT);
+	setSprite(left ? "player-attack-l" : "player-attack-r");
+	this->player = pl;
+	this->left = left;
+	this->lifetime = 20;
+
+	auto b = getBox();
+	if(left) {
+		b = df::Box(df::Vector(-2.0f, -1.25f), 2.0f, 2.25f);
+	} else {
+		b = df::Box(df::Vector(0.0f, -1.25f), 2.0f, 2.25f);
+	}
+	setBox(b);
+	
+	registerInterest(df::COLLISION_EVENT);
+
+}
+
+int PlayerAttack::eventHandler(const df::Event* p_e) {
+
+	if(p_e->getType() == df::STEP_EVENT) {
+
+		setPosition(player->getPosition() + df::Vector(0, -0.5f));
+
+		this->lifetime--;
+		if(lifetime == 12) {
+			auto b = getBox();
+			if(left) {
+				b = df::Box(df::Vector(-3.25f, -0.25f), 3.25f, 1.75f);
+			} else {
+				b = df::Box(df::Vector(0.0f, -0.25f), 3.25f, 1.75f);
+			}
+			setBox(b);
+		}
+
+		if(lifetime == 6) {
+			auto b = getBox();
+			if(left) {
+				b = df::Box(df::Vector(-2.25f, -0.25f), 2.25f, 2.0f);
+			} else {
+				b = df::Box(df::Vector(0.0f, -0.25f), 2.25f, 2.0f);
+			}
+			setBox(b);
+		}
+		if(this->lifetime <= 0) WM.markForDelete(this);
+	} else if(p_e->getType() == df::COLLISION_EVENT) {
+		df::EventCollision* ce = (df::EventCollision*)p_e;
+		//printf("%s %s\n", ce->getObject1()->getType().c_str(), ce->getObject2()->getType().c_str());
+
+		if(dynamic_cast<EnemyMaster*>(ce->getObject1())) {
+			WM.markForDelete(ce->getObject1());
+		} else if(dynamic_cast<EnemyMaster*>(ce->getObject2())) {
+			WM.markForDelete(ce->getObject2());
+		}
+	}
+
+	return 0;
+}
+
+int PlayerAttack::draw() {
+	return Object::draw();
 }

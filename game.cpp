@@ -59,7 +59,8 @@ int main(int argc, char* argv[]) {
 void loadResources() {
 	RM.loadSprite("sprites/bat-spr.txt", "bat");
 	RM.loadSprite("sprites/slime-spr.txt", "slime");
-	RM.loadSprite("sprites/player-attack-spr.txt", "player-attack");
+	RM.loadSprite("sprites/player-attack-spr-r.txt", "player-attack-r");
+	RM.loadSprite("sprites/player-attack-spr-l.txt", "player-attack-l");
 	RM.loadSprite("sprites/player-walk-spr.txt", "player-walk");
 	RM.loadSprite("sprites/player-idle-body-spr.txt", "player-idle-body");
 	RM.loadSprite("sprites/player-idle-feet-spr.txt", "player-idle-feet");
@@ -70,7 +71,8 @@ void loadResources() {
 void unloadResources() {
 	RM.unloadSprite("bat");
 	RM.unloadSprite("slime");
-	RM.unloadSprite("player-attack");
+	RM.unloadSprite("player-attack-l");
+	RM.unloadSprite("player-attack-r");
 	RM.unloadSprite("player-walk");
 	RM.unloadSprite("player-idle-body");
 	RM.unloadSprite("player-idle-feet");
