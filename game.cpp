@@ -19,8 +19,6 @@
 
 // Function prototypes.
 void loadResources();
-void unloadResources();
-void populateGameWorld();
 
 int main(int argc, char* argv[]) {
 	// Start up game manager.
@@ -43,14 +41,8 @@ int main(int argc, char* argv[]) {
 	// Load game resources.
 	loadResources();
 
-	// Populate the game world
-	populateGameWorld();
-
 	// Run game.
 	GM.run();
-
-	// Unload game resources.
-	unloadResources();
 
 	// Shut everything down.
 	GM.shutDown();
@@ -64,31 +56,4 @@ void loadResources() {
 	RM.loadSprite("sprites/player-idle-body-spr.txt", "player-idle-body");
 	RM.loadSprite("sprites/player-idle-feet-spr.txt", "player-idle-feet");
 	RM.loadSprite("sprites/player-bounds.txt", "player-bounds");
-	//RM.loadSprite("sprites/wall1.txt", "wall1");
-}
-
-void unloadResources() {
-	RM.unloadSprite("bat");
-	RM.unloadSprite("slime");
-	RM.unloadSprite("player-attack");
-	RM.unloadSprite("player-walk");
-	RM.unloadSprite("player-idle-body");
-	RM.unloadSprite("player-idle-feet");
-	RM.unloadSprite("player-bounds");
-	//RM.unloadSprite("wall1");
-}
-
-void populateGameWorld() {
-	// set world boundary to be 2 screens wide
-	int screensX = 2;
-	int screensY = 1;
-	df::Vector v = df::pixelsToSpaces(df::Vector(DM.getHorizontalPixels(), DM.getVerticalPixels())), w(DM.getHorizontal() * screensX, DM.getVertical() * screensY);
-	if (w.getX() < v.getX()) {
-		w.setX(v.getX());
-	}
-	if (w.getY() < v.getY()) {
-		w.setY(v.getY());
-	}
-	df::Box boundary = df::Box(df::Vector() - ((w - v) / 2.0), w.getX(), w.getY());
-	WM.setBoundary(boundary);
 }

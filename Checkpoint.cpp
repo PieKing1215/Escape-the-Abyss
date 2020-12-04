@@ -18,13 +18,8 @@ Checkpoint::Checkpoint(df::Vector pos, int width, int height) {
 	setType("Checkpoint");
 	setSolidness(df::Solidness::SOFT); // Only overlaps objects
 	setPosition(pos);
+	setBox(df::Box(df::Vector(-1.0 * width / 2.0, -1.0 * height / 2.0), width, height));
 	fired = false;
-	// Make a sprite with the correct width and height specks for overlap box
-	df::Sprite* sprite = new df::Sprite(0);
-	sprite->setWidth(width);
-	sprite->setHeight(height);
-	getAnimation()->setSprite(sprite);
-	setBox(getAnimation()->getBox());
 	WM.insertObject(this);
 
 	registerInterest(df::COLLISION_EVENT);

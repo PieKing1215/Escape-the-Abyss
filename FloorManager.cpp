@@ -27,6 +27,7 @@ FloorManager::FloorManager() {
 	maxFloorHeight = 20;
 	minFloorHeight = -20;
 	noise = 30;
+	previousEndHeight = 0;
 	player = NULL;
 }
 
@@ -90,7 +91,7 @@ void FloorManager::setNoise(int new_noise) {
 
 int FloorManager::nextFloor() {
 	// Clear all objects
-	df::ObjectList ol = WM.getAllObjects();
+	/*df::ObjectList ol = WM.getAllObjects();
 	df::ObjectListIterator li(&ol);
 	li.first();
 	while (!li.isDone()) {
@@ -98,11 +99,11 @@ int FloorManager::nextFloor() {
 			WM.markForDelete(li.currentObject());
 		}
 		li.next();
-	}
+	}*/
 
 	// Create floor
 	srand(currentFloor + 1);
-	int floorHeight = 0, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 100) - 5) * currentFloor;
+	int floorHeight = previousEndHeight, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 100) - 5) * currentFloor, enemies = 0;
 	if (enemyMultiplier <= 0) {
 		enemyMultiplier = 1;
 	}
@@ -123,36 +124,56 @@ int FloorManager::nextFloor() {
 			}
 		}
 		// simple sin wave for testing. height = (int)(sin(x / 10.0f) * 2.0f + sin(x / 3.14f) * 2.0f);
-		new Floor(df::Vector(10.0f + x, 20.0f + floorHeight));
+		new Floor(df::Vector((currentFloor * levelWidth) + 10.0f + x, 20.0f + floorHeight));
 
 		// Check if this floor tile should have an enemy spawned above it.
-		if (x > 25 && x % (levelWidth / totalEnemies) == 0) {
-			/*float tmp = (float)(rand() % 10) / 10.0;
+		if (enemies < totalEnemies && (currentFloor > 0 && x % (levelWidth / totalEnemies) == 0) || (currentFloor == 0 && x > 25 && x % (levelWidth / totalEnemies) == 0)) {
+			float tmp = (float)(rand() % 10) / 10.0;
+			// TOOD: there is a big performance hit on enemy spawning but not floor spawning
 			if (tmp < groundToAir) {
 				EnemySlime* slime = new EnemySlime();
-				slime->setPosition(df::Vector(10.0f + x, 20.0f + floorHeight - 4));
+				slime->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, 20.0f + floorHeight - 4));
 			}
 			else {
 				EnemyBat* bat = new EnemyBat();
-				bat->setPosition(df::Vector(10.0f + x, 20.0f + floorHeight - 6));
-			}*/
-		} else if (x == 0) {
-			// Move the player
-			if (!player) {
-				player = new Player();
+				bat->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, 20.0f + floorHeight - 6));
 			}
+			enemies++;
+		} else if (!player && x == 0) {
+			// Create the player
+			player = new Player();
 			player->setPosition({ 5, 0 });
 			player->setVelocity({ 0.5f, -0.1f });
+			
+			// Make camera follow player
+			WM.setViewFollowing(player);
 		}
 	}
 
-	// Create checkpoint the end of the level
-	new Checkpoint(df::Vector(10.0f + levelWidth, 20.0f), 1, 20);
+	previousEndHeight = floorHeight;
 
-	// Make camera follow player
-	WM.setViewFollowing(player);
+	// Create checkpoint the end of the level
+	new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), DM.getVertical() / 2), 1, DM.getVertical());
 
 	currentFloor++;
+
+	// Add enough room to world
+	df::Vector v(WM.getView().getHorizontal(), WM.getView().getVertical()), w;
+	if (currentFloor > 1) {
+		w.setXY(WM.getBoundary().getHorizontal() + 100, DM.getVertical());
+	}
+	else {
+		w.setXY(DM.getHorizontal() * 2, DM.getVertical());
+	}
+
+	if (w.getX() < v.getX()) {
+		w.setX(v.getX());
+	}
+	if (w.getY() < v.getY()) {
+		w.setY(v.getY());
+	}
+	df::Box boundary = df::Box(df::Vector() - ((w - v) / 2.0), w.getX(), w.getY());
+	WM.setBoundary(boundary);
 	              
 	// TODO: load custom settings for next floor if implemented
 

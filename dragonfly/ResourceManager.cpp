@@ -54,6 +54,15 @@ int df::ResourceManager::startUp() {
 }
 
 void df::ResourceManager::shutDown() {
+	for (int i = 0; i < m_sprite_count; i++) {
+		unloadSprite(p_sprite[i]->getLabel());
+	}
+	for (int i = 0; i < m_sound_count; i++) {
+		unloadSound(m_sound[i].getLabel());
+	}
+	for (int i = 0; i < m_music_count; i++) {
+		unloadMusic(m_music[i].getLabel());
+	}
 	df::Manager::shutDown();
 }
 

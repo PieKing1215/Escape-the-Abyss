@@ -91,38 +91,6 @@ void df::WorldManager::shutDown() {
 }
 
 int df::WorldManager::insertObject(df::Object* p_o) {
-	// Check object is not inserted already
-	df::ObjectList ol = getAllObjects();
-	df::ObjectListIterator li(&ol);
-	li.first();
-	while (!li.isDone() && li.currentObject()) {
-		if (li.currentObject() == p_o) {
-			return 0;
-		}
-		li.next();
-	}
-	// If there are collisions on spawn.
-	if (getCollisions(p_o).getCount() > 0) {
-		df::Vector v;
-		switch (p_o->getOverlapHandle()) {
-		// Object should die.
-		case df::OverlapHandle::DO_NOT_SPAWN:
-			writeLog("ERROR", "Error inserting object '%s %d'. Spawn location overlaps with another object. Ignoring.", p_o->getType().c_str(), p_o->getId());
-			return -1;
-		// Object should try to find a location with 10 units nearby.
-		case df::OverlapHandle::ATTEMPT_TO_MOVE:
-			writeLog("ALERT", "Error inserting object '%s %d'. Collision on change. Attempting to move.", p_o->getType().c_str(), p_o->getId());
-			if (p_o->tryToMove() || getCollisions(p_o).getCount() > 0) {
-				writeLog("ERROR", "No nearby locations found. Ignoring.");
-				return -1;
-			}
-			writeLog("", "Location nearby found. Moved to %s.", df::toString(p_o->getPosition()).c_str());
-			break;
-		// Object should spawn anyways.
-		case df::OverlapHandle::SPAWN_ALWAYS:
-			writeLog("WARN!", "Error inserting object '%s %d'. Collision on change. Inserting anyways. Prepare for a probable crash.", p_o->getType().c_str(), p_o->getId());
-		}
-	}
 	return scene_graph.insertObject(p_o);
 }
 

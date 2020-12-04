@@ -25,6 +25,7 @@ private:
 	int maxFloorHeight; // Maximum floor height.
 	int minFloorHeight; // Minimum floor height.
 	int noise; // A higher number causes more topographical terrain. noise maxes out at (maxFloorHeight - minFloorHeight)
+	int previousEndHeight; // The previous ending height.
 	Player* player; // The player pointer.
 public:
 	// Get the one and only instance of the FloorManager.
