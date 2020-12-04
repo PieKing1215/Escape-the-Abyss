@@ -10,6 +10,9 @@
 // Engine includes.
 #include "dragonfly/Manager.h"
 
+// Game includes.
+#include "Player.h"
+
 #define FM FloorManager::getInstance()
 
 class FloorManager : public df::Manager {
@@ -22,6 +25,7 @@ private:
 	int maxFloorHeight; // Maximum floor height.
 	int minFloorHeight; // Minimum floor height.
 	int noise; // A higher number causes more topographical terrain. noise maxes out at (maxFloorHeight - minFloorHeight)
+	Player* player; // The player pointer.
 public:
 	// Get the one and only instance of the FloorManager.
 	static FloorManager& getInstance();

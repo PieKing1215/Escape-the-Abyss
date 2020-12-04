@@ -6,6 +6,7 @@
 
 #include "Player.h"
 
+#include "dragonfly/GameManager.h"
 #include "dragonfly/ResourceManager.h"
 #include "dragonfly/InputManager.h"
 #include "dragonfly/WorldManager.h"
@@ -22,16 +23,17 @@
 Player::Player() {
 	setType("Player");
 
+	// TODO: we shouldn't need to set boxes manually. setSprite does it for us
 	auto b = getBox();
 	b = df::Box(df::Vector(b.getCorner().getX() + 0.25f, b.getCorner().getY() + 0.5f), b.getHorizontal() - 0.5f, b.getVertical() - 0.5f);
-	setBox(b);
+	//setBox(b);
 
 	hasGravity(true);
-	setSprite("player-bounds");
-	
 	//registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
 	registerInterest(df::KEYBOARD_EVENT);
+
+	setSprite("player-bounds");
 }
 
 int Player::eventHandler(const df::Event* p_e) {
@@ -42,15 +44,23 @@ int Player::eventHandler(const df::Event* p_e) {
 	} else if(p_e->getType() == df::KEYBOARD_EVENT) {
 		df::EventKeyboard* ke = (df::EventKeyboard*)p_e;
 
-		if(ke->getKey() == df::Keyboard::Key::SPACE) {
-			if(ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
+		if (ke->getKey() == df::Keyboard::Key::SPACE) {
+			if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
 				jump();
 				return 1;
-			} else if(ke->getKeyboardAction() == df::EventKeyboardAction::KEY_RELEASED) {
+			}
+			else if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_RELEASED) {
 				endJump();
 				return 1;
 			}
 		}
+		if (ke->getKey() == df::Keyboard::Key::Q) {
+			if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
+				GM.setGameOver();
+				return 1;
+			}
+		}
+		
 
 	} else if(p_e->getType() == df::COLLISION_EVENT) {
 		df::EventCollision* ce = (df::EventCollision*)p_e;

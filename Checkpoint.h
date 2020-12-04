@@ -11,8 +11,12 @@
 #include "dragonfly/Object.h"
 
 class Checkpoint : public df::Object {
-	public:
-		Checkpoint(df::Vector pos, int width, int height);
-		virtual int eventHandler(const df::Event* p_e);
-	};
+private:
+	bool fired;
+public:
+	Checkpoint(df::Vector pos, int width, int height);
+	bool hasFired() const;
+	virtual int eventHandler(const df::Event* p_e);
+	int draw();
+};
 #endif // __CHECKPOINT_H__

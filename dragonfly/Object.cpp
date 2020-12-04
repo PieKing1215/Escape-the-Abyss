@@ -242,12 +242,7 @@ int df::Object::registerInterest(df::Object* p_o, std::string event_type) {
 	if (event_count == df::MAX_OBJ_EVENTS) {
 		return -1;
 	}
-	if (event_type == df::STEP_EVENT) {
-		GM.registerInterest(this, event_type);
-	}
-	else {
-		WM.registerInterest(this, event_type);
-	}
+	GM.registerInterest(this, event_type);
 	event_name[event_count] = event_type;
 	event_count++;
 	return 0;

@@ -42,7 +42,7 @@ namespace df {
 		// Return 0 if found, else -1.
 		int remove(Object* p_o);
 		// Clear list (setting count to 0).
-		void clear();
+		bool clear();
 		// Return count of number of objects in list.
 		int getCount() const;
 		// Return true if list is empty, else false.

@@ -10,6 +10,7 @@
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "ObjectListIterator.h"
+#include "utility.h"
 
 // System includes.
 #include <stdarg.h>
@@ -74,7 +75,7 @@ int df::Manager::registerInterest(df::Object* p_o, std::string event_type) {
 	obj_list[event_count].clear();
 	obj_list[event_count].insert(p_o);
 	event_count++;
-	writeLog("ALERT", "Can now recieve events of type '%s'", event_type.c_str());
+	LM.writeLog("ALERT", p_o->getType() + " " + df::toString(p_o->getId()), "Can now recieve events of type '%s'.", event_type.c_str());
 	return 0;
 }
 

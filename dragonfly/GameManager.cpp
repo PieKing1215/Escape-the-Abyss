@@ -114,6 +114,7 @@ void df::GameManager::run() {
 	if (FM.isStarted()) {
 		FM.shutDown();
 	}
+	WM.getAllObjects();
 	writeLog("ALERT", "---------END GAME LOOP---------");
 }
 

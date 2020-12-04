@@ -80,16 +80,17 @@ int df::ObjectList::remove(df::Object* p_o) {
 	return -1;
 }
 
-void df::ObjectList::clear() {
+bool df::ObjectList::clear() {
 	df::Object** tmp_obj = (df::Object**)(realloc(m_p_obj, sizeof(df::Object*)));
 	if (tmp_obj == NULL) {
 		free(tmp_obj);
-		return;
+		return false;
 	}
 	m_p_obj = tmp_obj;
 	m_p_obj[0] = NULL;
 	m_count = 0;
 	max_count = 1;
+	return true;
 }
 
 int df::ObjectList::getCount() const {

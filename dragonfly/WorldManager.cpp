@@ -72,11 +72,11 @@ int df::WorldManager::startUp() {
 void df::WorldManager::shutDown() {
 	// Destroy all objects in the scene graph.
 	writeLog("", "Killing all Objects.");
-	m_deletions = scene_graph.activeObjects() + scene_graph.inactiveObjects();
+	m_deletions = getAllObjects();
 	df::ObjectListIterator li(&m_deletions);
 	li.first();
-	while (!li.isDone()) {
-		delete li.currentObject();
+	while (!li.isDone() && li.currentObject()) {
+		delete li.currentObject(); // TODO: there is something wrong here. li.currentObject() on safe shutdown throws an access violation.
 		li.next();
 	}
 	m_deletions.clear();
@@ -441,6 +441,9 @@ void df::WorldManager::setViewPosition(df::Vector view_pos) {
 int df::WorldManager::setViewFollowing(df::Object* p_new_view_following) {
 	if (!p_new_view_following) {
 		p_view_following = NULL;
+		return 0;
+	}
+	if (p_view_following == p_new_view_following) {
 		return 0;
 	}
 	df::ObjectList ol = getAllObjects();

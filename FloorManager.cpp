@@ -7,10 +7,12 @@
 #include "FloorManager.h"
 
 // Engine inludes.
+#include "dragonfly/DisplayManager.h"
 #include "dragonfly/LogManager.h"
 #include "dragonfly/WorldManager.h"
 
 // Game includes.
+#include "Checkpoint.h"
 #include "Floor.h"
 #include "Player.h"
 
@@ -25,6 +27,7 @@ FloorManager::FloorManager() {
 	maxFloorHeight = 20;
 	minFloorHeight = -20;
 	noise = 30;
+	player = NULL;
 }
 
 FloorManager::FloorManager(FloorManager const&) {
@@ -35,6 +38,7 @@ FloorManager::FloorManager(FloorManager const&) {
 	maxFloorHeight = 20;
 	minFloorHeight = -20;
 	noise = 30;
+	player = NULL;
 }
 
 void FloorManager::operator=(FloorManager const&) {
@@ -90,23 +94,20 @@ int FloorManager::nextFloor() {
 	df::ObjectListIterator li(&ol);
 	li.first();
 	while (!li.isDone()) {
-		if (li.currentObject()->getType() == "Player") {
-			// TODO: save any stats stored on player
+		if (li.currentObject()->getType() != "Player") {
+			WM.markForDelete(li.currentObject());
 		}
-		WM.removeObject(li.currentObject());
-		delete li.currentObject();
+		li.next();
 	}
 
 	// Create floor
 	srand(currentFloor + 1);
-	int floorHeight = 0, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 50) - 10) * currentFloor;
+	int floorHeight = 0, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 100) - 5) * currentFloor;
 	if (enemyMultiplier <= 0) {
 		enemyMultiplier = 1;
 	}
 	const float groundToAir = (float)(rand() % 10) / 10.0;
-	const int totalEnemies = rand() % enemyMultiplier + 10;
-
-	writeLog("", "%f", groundToAir);
+	const int totalEnemies = rand() % enemyMultiplier + 5;
 
 	for (int x = 0; x < levelWidth; x++) {
 		srand((currentFloor + 1) * (x + 2) * (rand() % 50));
@@ -126,38 +127,30 @@ int FloorManager::nextFloor() {
 
 		// Check if this floor tile should have an enemy spawned above it.
 		if (x > 25 && x % (levelWidth / totalEnemies) == 0) {
-			float tmp = (float)(rand() % 10) / 10.0;
+			/*float tmp = (float)(rand() % 10) / 10.0;
 			if (tmp < groundToAir) {
 				EnemySlime* slime = new EnemySlime();
 				slime->setPosition(df::Vector(10.0f + x, 20.0f + floorHeight - 4));
-			} else {
+			}
+			else {
 				EnemyBat* bat = new EnemyBat();
 				bat->setPosition(df::Vector(10.0f + x, 20.0f + floorHeight - 6));
+			}*/
+		} else if (x == 0) {
+			// Move the player
+			if (!player) {
+				player = new Player();
 			}
+			player->setPosition({ 5, 0 });
+			player->setVelocity({ 0.5f, -0.1f });
 		}
 	}
 
-	// Spawn the player
-	Player* pl = new Player();
-	pl->setPosition({ 15, 14 });
-	pl->setVelocity({ 0.5f, -0.1f });
-
-	// TODO: write any saved stats to player
-
-
-
-	/* temp: replace with actual generation
-	for(int i = 0; i < 5; i++) {
-		EnemySlime* slime = new EnemySlime();
-		slime->setPosition({40.0f + 8 * i, 5});
-	}
-	for(int i = 0; i < 5; i++) {
-		EnemyBat* slime = new EnemyBat();
-		slime->setPosition({40.0f + 8 * i, 3});
-	} */
+	// Create checkpoint the end of the level
+	new Checkpoint(df::Vector(10.0f + levelWidth, 20.0f), 1, 20);
 
 	// Make camera follow player
-	WM.setViewFollowing(pl);
+	WM.setViewFollowing(player);
 
 	currentFloor++;
 	              

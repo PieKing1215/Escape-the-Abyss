@@ -64,7 +64,7 @@ void loadResources() {
 	RM.loadSprite("sprites/player-idle-body-spr.txt", "player-idle-body");
 	RM.loadSprite("sprites/player-idle-feet-spr.txt", "player-idle-feet");
 	RM.loadSprite("sprites/player-bounds.txt", "player-bounds");
-	RM.loadSprite("sprites/wall1.txt", "wall1");
+	//RM.loadSprite("sprites/wall1.txt", "wall1");
 }
 
 void unloadResources() {
@@ -75,7 +75,7 @@ void unloadResources() {
 	RM.unloadSprite("player-idle-body");
 	RM.unloadSprite("player-idle-feet");
 	RM.unloadSprite("player-bounds");
-	RM.unloadSprite("wall1");
+	//RM.unloadSprite("wall1");
 }
 
 void populateGameWorld() {

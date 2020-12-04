@@ -186,7 +186,6 @@
     <ClCompile Include="EnemyBat.cpp" />
     <ClCompile Include="EnemyMaster.cpp" />
     <ClCompile Include="EnemySlime.cpp" />
-    <ClCompile Include="EventCheckpoint.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Floor.cpp" />
@@ -228,7 +227,6 @@
     <ClInclude Include="dragonfly\WorldManager.h" />
     <ClInclude Include="EnemyBat.h" />
     <ClInclude Include="EnemySlime.h" />
-    <ClInclude Include="EventCheckpoint.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="EnemyMaster.h" />

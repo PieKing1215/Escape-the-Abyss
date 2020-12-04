@@ -13,16 +13,14 @@
 
 EnemyBat::EnemyBat() {
     setType("Bat");
+	randomOffset = rand() % 1000; // not important enough to use a good rng so just use rand
     setSprite("bat");
 
     auto b = getBox();
     b = df::Box(df::Vector(b.getCorner().getX() + 0.5f, b.getCorner().getY() + 0.25f), b.getHorizontal() - 1.0f, b.getVertical() - 0.5f);
-    setBox(b);
+    //setBox(b);
 
     //registerInterest(df::STEP_EVENT);
-
-    // not important enough to use a good rng so just use rand
-    randomOffset = rand() % 1000;
 }
 
 int EnemyBat::eventHandler(const df::Event* ev) {
