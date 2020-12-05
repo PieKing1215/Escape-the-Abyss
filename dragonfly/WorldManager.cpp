@@ -391,21 +391,20 @@ df::Box df::WorldManager::getView() const {
 
 void df::WorldManager::setViewPosition(df::Vector view_pos) {
 	float x = view_pos.getX() - view.getHorizontal() / 2;
-	if (x + view.getHorizontal() > boundary.getHorizontal()) {
+	if (x + view.getHorizontal() > boundary.getCorner().getX() + boundary.getHorizontal()) {
 		x = boundary.getHorizontal() - view.getHorizontal();
 	}
-	if (x < 0) {
-		x = 0;
+	if (x < boundary.getCorner().getX()) {
+		x = boundary.getCorner().getX();
 	}
 	float y = view_pos.getY() - view.getVertical() / 2;
-	if (y + view.getVertical() > boundary.getVertical()) {
+	if (y + view.getVertical() > boundary.getCorner().getY() + boundary.getVertical()) {
 		y = boundary.getVertical() - view.getVertical();
 	}
-	if (y < 0) {
-		y = 0;
+	if (y < boundary.getCorner().getY()) {
+		y = boundary.getCorner().getY();
 	}
-	df::Vector new_corner(x, y);
-	view.setCorner(new_corner);
+	view.setCorner(df::Vector(x, y));
 }
 
 int df::WorldManager::setViewFollowing(df::Object* p_new_view_following) {
