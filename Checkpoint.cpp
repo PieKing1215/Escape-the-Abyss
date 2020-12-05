@@ -13,13 +13,15 @@
 
 // Game includes.
 #include "FloorManager.h"
+#include "GameOver.h"
 
-Checkpoint::Checkpoint(df::Vector pos, int width, int height) {
+Checkpoint::Checkpoint(df::Vector pos, int width, int height, bool finalCheckpoint) {
 	setType("Checkpoint");
 	setSolidness(df::Solidness::SOFT); // Only overlaps objects
 	setPosition(pos);
 	setBox(df::Box(df::Vector(-1.0 * width / 2.0, -1.0 * height / 2.0), width, height));
 	fired = false;
+	isFinal = finalCheckpoint;
 	WM.insertObject(this);
 
 	registerInterest(df::COLLISION_EVENT);
@@ -33,7 +35,12 @@ int Checkpoint::eventHandler(const df::Event* p_e) {
 	if (!fired && p_e->getType() == df::COLLISION_EVENT) {
 		if (((df::EventCollision*)p_e)->getObject1()->getType() == "Player") {
 			fired = true;
-			FM.nextFloor();
+			if (isFinal) {
+				new GameOver;
+			}
+			else {
+				FM.nextFloor();
+			}
 			return 1;
 		}
 	}

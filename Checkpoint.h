@@ -13,8 +13,9 @@
 class Checkpoint : public df::Object {
 private:
 	bool fired;
+	bool isFinal;
 public:
-	Checkpoint(df::Vector pos, int width, int height);
+	Checkpoint(df::Vector pos, int width, int height, bool finalCheckpoint = false);
 	bool hasFired() const;
 	virtual int eventHandler(const df::Event* p_e);
 	int draw();
