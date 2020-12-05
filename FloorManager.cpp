@@ -7,12 +7,17 @@
 #include "FloorManager.h"
 
 // Engine inludes.
+#include "dragonfly/DisplayManager.h"
+#include "dragonfly/GameManager.h"
 #include "dragonfly/LogManager.h"
 #include "dragonfly/WorldManager.h"
+#include "dragonfly/utility.h"
 
 // Game includes.
+#include "Checkpoint.h"
 #include "Floor.h"
 #include "Player.h"
+#include "GameOver.h"
 
 #include "EnemySlime.h"
 #include "EnemyBat.h"
@@ -22,9 +27,9 @@ FloorManager::FloorManager() {
 	// TODO: set this based on save file read.
 	currentFloor = 0;
 	floorSize = 5;
-	maxFloorHeight = 20;
-	minFloorHeight = -20;
-	noise = 30;
+	noise = 80;
+	previousEndHeight = 0;
+	player = NULL;
 }
 
 FloorManager::FloorManager(FloorManager const&) {
@@ -32,9 +37,8 @@ FloorManager::FloorManager(FloorManager const&) {
 	// TODO: set this based on save file read.
 	currentFloor = 0;
 	floorSize = 5;
-	maxFloorHeight = 20;
-	minFloorHeight = -20;
-	noise = 30;
+	noise = 10;
+	player = NULL;
 }
 
 void FloorManager::operator=(FloorManager const&) {
@@ -72,95 +76,104 @@ void FloorManager::setFloorSize(int new_floor_size) {
 	floorSize = new_floor_size;
 }
 
-void FloorManager::setMaxFloorHeight(int new_height) {
-	maxFloorHeight = new_height;
-}
-
-void FloorManager::setMinFloorHeight(int new_height) {
-	minFloorHeight = new_height;
-}
-
 void FloorManager::setNoise(int new_noise) {
-	noise = new_noise;
+	if (new_noise > 100) {
+		new_noise = 100;
+	}
+	else if (new_noise < 0) {
+		new_noise = 0;
+	}
+	else {
+		noise = new_noise;
+	}
 }
 
 int FloorManager::nextFloor() {
-	// Clear all objects
-	df::ObjectList ol = WM.getAllObjects();
-	df::ObjectListIterator li(&ol);
-	li.first();
-	while (!li.isDone()) {
-		if (li.currentObject()->getType() == "Player") {
-			// TODO: save any stats stored on player
-		}
-		WM.removeObject(li.currentObject());
-		delete li.currentObject();
-	}
-
 	// Create floor
 	srand(currentFloor + 1);
-	int floorHeight = 0, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 50) - 10) * currentFloor;
+	int floorHeight = previousEndHeight, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 100) - 5) * currentFloor, enemies = 0;
 	if (enemyMultiplier <= 0) {
 		enemyMultiplier = 1;
 	}
 	const float groundToAir = (float)(rand() % 10) / 10.0;
-	const int totalEnemies = rand() % enemyMultiplier + 10;
+	const int totalEnemies = rand() % enemyMultiplier + 5;
+	const int worldHeight = 1000;
+	const int maxLevel = 5;
 
-	writeLog("", "%f", groundToAir);
+	df::Box view = WM.getView(), boundary = WM.getBoundary();
 
 	for (int x = 0; x < levelWidth; x++) {
-		srand((currentFloor + 1) * (x + 2) * (rand() % 50));
-		if (x % floorSize == 0) {
-			int height = rand() % (maxFloorHeight - minFloorHeight) + minFloorHeight;
-			if (abs(height) >= (maxFloorHeight - minFloorHeight) - noise) {
-				if (height >= 0 && floorHeight < maxFloorHeight) {
-					floorHeight++;
-				}
-				else if (floorHeight > minFloorHeight) {
-					floorHeight--;
+		if (currentFloor == maxLevel) {
+			new Floor(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight));
+		}
+		else {
+			srand((currentFloor + 1) * (x + 2) * (rand() % 50));
+			if (x % floorSize == 0) {
+				int height = rand() % 200 - 100;
+				if (abs(height) >= 100 - noise) {
+					if (height >= 0 && floorHeight < 0 && worldHeight > abs(floorHeight) + 20) {
+						floorHeight++;
+					}
+					else if (height < 0) {
+						floorHeight--;
+					}
 				}
 			}
-		}
-		// simple sin wave for testing. height = (int)(sin(x / 10.0f) * 2.0f + sin(x / 3.14f) * 2.0f);
-		new Floor(df::Vector(10.0f + x, 20.0f + floorHeight));
+			// simple sin wave for testing. height = (int)(sin(x / 10.0f) * 2.0f + sin(x / 3.14f) * 2.0f);
+			new Floor(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight));
 
-		// Check if this floor tile should have an enemy spawned above it.
-		if (x > 25 && x % (levelWidth / totalEnemies) == 0) {
-			float tmp = (float)(rand() % 10) / 10.0;
-			if (tmp < groundToAir) {
-				EnemySlime* slime = new EnemySlime();
-				slime->setPosition(df::Vector(10.0f + x, 20.0f + floorHeight - 4));
-			} else {
-				EnemyBat* bat = new EnemyBat();
-				bat->setPosition(df::Vector(10.0f + x, 20.0f + floorHeight - 6));
+			// Check if this floor tile should have an enemy spawned above it.
+			if (enemies < totalEnemies && (currentFloor > 0 && x % (levelWidth / totalEnemies) == 0) || (currentFloor == 0 && x > 25 && x % (levelWidth / totalEnemies) == 0)) {
+				float tmp = (float)(rand() % 10) / 10.0;
+				// TOOD: there is a big performance hit on enemy spawning but not floor spawning
+				if (tmp < groundToAir) {
+					//EnemySlime* slime = new EnemySlime();
+					//slime->setPosition(df::viewToWorld(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 4)));
+				}
+				else {
+					//EnemyBat* bat = new EnemyBat();
+					//bat->setPosition(df::viewToWorld(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 6)));
+				}
+				enemies++;
+			}
+			else if (!player && x == 0) {
+				// Make world really tall
+				WM.setBoundary(df::Box(df::Vector(), 10 + levelWidth, worldHeight + view.getVertical()));
+				boundary = WM.getBoundary();
+
+				// Create the player
+				player = new Player();
+				player->setPosition(df::Vector(0, worldHeight));
+				player->setVelocity(df::Vector(1, 0));
+
+				// Make camera follow player
+				WM.setViewFollowing(player);
+				WM.setViewSlack(df::Vector(0.25, 0.25));
 			}
 		}
 	}
 
-	// Spawn the player
-	Player* pl = new Player();
-	pl->setPosition({ 15, 14 });
-	pl->setVelocity({ 0.5f, -0.1f });
+	previousEndHeight = floorHeight;
 
-	// TODO: write any saved stats to player
-
-
-
-	/* temp: replace with actual generation
-	for(int i = 0; i < 5; i++) {
-		EnemySlime* slime = new EnemySlime();
-		slime->setPosition({40.0f + 8 * i, 5});
-	}
-	for(int i = 0; i < 5; i++) {
-		EnemyBat* slime = new EnemyBat();
-		slime->setPosition({40.0f + 8 * i, 3});
-	} */
-
-	// Make camera follow player
-	WM.setViewFollowing(pl);
-
+	// Create checkpoint the end of the level
+	new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), worldHeight + 20 + floorHeight), 1, DM.getVertical(), currentFloor == maxLevel);
+	
 	currentFloor++;
-	              
+
+	// Add enough room to world
+	df::Vector v(view.getHorizontal(), view.getVertical());
+	if (currentFloor > 1) {
+		boundary.setHorizontal(boundary.getHorizontal() + 100);
+	}
+
+	if (boundary.getHorizontal() < v.getX()) {
+		boundary.setHorizontal(v.getX());
+	}
+	if (boundary.getVertical() < v.getY()) {
+		boundary.setVertical(v.getY());
+	}
+	WM.setBoundary(boundary);
+
 	// TODO: load custom settings for next floor if implemented
 
 	return 0;

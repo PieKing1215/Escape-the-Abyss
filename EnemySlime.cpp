@@ -12,14 +12,8 @@
 
 EnemySlime::EnemySlime() {
     setType("Slime");
+	hasGravity(true);
     setSprite("slime");
-
-    hasGravity(true);
-
-    auto b = getBox();
-    b = df::Box(df::Vector(b.getCorner().getX() + 0.5f, b.getCorner().getY() + 1.25f), b.getHorizontal() - 1.0f, b.getVertical() - 1.25f);
-    setBox(b);
-
 }
 
 int EnemySlime::eventHandler(const df::Event* ev) {

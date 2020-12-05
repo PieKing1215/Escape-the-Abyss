@@ -7,31 +7,51 @@
 #include "Checkpoint.h"
 
 // Engine includes.
+#include "dragonfly/DisplayManager.h"
 #include "dragonfly/WorldManager.h"
 #include "dragonfly/EventCollision.h"
 
 // Game includes.
-#include "EventCheckpoint.h"
+#include "FloorManager.h"
+#include "GameOver.h"
 
-Checkpoint::Checkpoint(df::Vector pos, int width, int height) {
+Checkpoint::Checkpoint(df::Vector pos, int width, int height, bool finalCheckpoint) {
 	setType("Checkpoint");
 	setSolidness(df::Solidness::SOFT); // Only overlaps objects
 	setPosition(pos);
-	// Make a sprite with the correct width and height specks for overlap box
-	df::Sprite* sprite = new df::Sprite(0);
-	sprite->setWidth(width);
-	sprite->setHeight(height);
-	getAnimation()->setSprite(sprite);
+	setBox(df::Box(df::Vector(-1.0 * width / 2.0, -1.0 * height / 2.0), width, height));
+	fired = false;
+	isFinal = finalCheckpoint;
 	WM.insertObject(this);
 
 	registerInterest(df::COLLISION_EVENT);
 }
 
+bool Checkpoint::hasFired() const {
+	return fired;
+}
+
 int Checkpoint::eventHandler(const df::Event* p_e) {
-	if (p_e->getType() == df::COLLISION_EVENT) {
-		EventCheckpoint ec;
-		WM.onEvent(&ec);
-		return 1;
+	if (!fired && p_e->getType() == df::COLLISION_EVENT) {
+		if (((df::EventCollision*)p_e)->getObject1()->getType() == "Player") {
+			fired = true;
+			if (isFinal) {
+				new GameOver;
+			}
+			else {
+				FM.nextFloor();
+			}
+			return 1;
+		}
 	}
 	return 0;
 }
+
+int Checkpoint::draw() {
+	std::string tmp = "";
+	for (int i = 0; i < getBox().getHorizontal(); i++) {
+		tmp += "*";
+	}
+	return DM.drawString(getPosition(), tmp, df::Justification::LEFT_JUSTIFIED, df::Color::YELLOW);
+}
+

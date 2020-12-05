@@ -54,6 +54,15 @@ int df::ResourceManager::startUp() {
 }
 
 void df::ResourceManager::shutDown() {
+	for (int i = 0; i < m_sprite_count; i++) {
+		unloadSprite(p_sprite[i]->getLabel());
+	}
+	for (int i = 0; i < m_sound_count; i++) {
+		unloadSound(m_sound[i].getLabel());
+	}
+	for (int i = 0; i < m_music_count; i++) {
+		unloadMusic(m_music[i].getLabel());
+	}
 	df::Manager::shutDown();
 }
 
@@ -254,14 +263,16 @@ df::Frame df::ResourceManager::matchFrame(std::vector<std::string>* p_data, int 
 int df::ResourceManager::unloadSprite(std::string label) {
 	writeLog("", "Unloading sprite '%s'.", label.c_str());
 	for (int i = 0; i < m_sprite_count; i++) {
-		if (label == p_sprite[i]->getLabel()) {
-			delete p_sprite[i];
-			for (int j = i; j < m_sprite_count - 2; j++) {
-				p_sprite[j] = p_sprite[j + 1];
+		if (p_sprite[i] != NULL) {
+			if (label == p_sprite[i]->getLabel()) {
+				delete p_sprite[i];
+				for (int j = i; j < m_sprite_count - 1; j++) {
+					p_sprite[j] = p_sprite[j + 1];
+				}
+				m_sprite_count--;
+				writeLog("", "Sprite '%s' unloaded.", label.c_str());
+				return 0;
 			}
-			m_sprite_count--;
-			writeLog("", "Sprite '%s' unloaded.", label.c_str());
-			return 0;
 		}
 	}
 	writeLog("ALERT", "Cannot unload sprite '%s'. Sprite not found.", label.c_str());

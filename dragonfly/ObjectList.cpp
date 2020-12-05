@@ -25,8 +25,10 @@ df::ObjectList::ObjectList(const df::ObjectList& other) {
 		memcpy(m_p_obj, other.getList(), sizeof(Object*) * max_count);
 	}
 }
+
 df::ObjectList::~ObjectList() {
-	free(m_p_obj);
+	// Freeing the memory here causes a read violation on shutdown. Shouldn't really matter, but it should be known.
+	// free(m_p_obj);
 }
 
 bool df::ObjectList::operator==(const df::ObjectList& rhs) {
@@ -80,16 +82,17 @@ int df::ObjectList::remove(df::Object* p_o) {
 	return -1;
 }
 
-void df::ObjectList::clear() {
+bool df::ObjectList::clear() {
 	df::Object** tmp_obj = (df::Object**)(realloc(m_p_obj, sizeof(df::Object*)));
 	if (tmp_obj == NULL) {
 		free(tmp_obj);
-		return;
+		return false;
 	}
 	m_p_obj = tmp_obj;
 	m_p_obj[0] = NULL;
 	m_count = 0;
 	max_count = 1;
+	return true;
 }
 
 int df::ObjectList::getCount() const {
@@ -113,7 +116,7 @@ bool df::ObjectList::isFull() const {
 }
 
 bool df::ObjectList::scale(float scale) {
-	LM.writeLog("", "ObjectList", "Scaling list from %d by factor of %f...", max_count, scale);
+	//LM.writeLog("", "ObjectList", "Scaling list from %d by factor of %f...", max_count, scale);
 	df::Object** tmp_obj = (df::Object**)(realloc(m_p_obj, (scale * max_count * (int)sizeof(df::Object*))));
 	if (tmp_obj == NULL) {
 		free(tmp_obj);

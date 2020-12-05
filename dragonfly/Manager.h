@@ -18,10 +18,10 @@ namespace df {
 	const int MAX_EVENTS = 100;
 	class Manager {
 	private:
-		std::string m_type; // Manager type identifier.
+		std::string m_type = ""; // Manager type identifier.
 		bool m_is_started; // True if startUp() succeeded.
-		std::string event[MAX_EVENTS]; // List of events.
-		ObjectList obj_list[MAX_EVENTS]; // Objects interested in event.
+		std::string* event; // List of events.
+		ObjectList* obj_list; // Objects interested in event.
 		int event_count; // Number of events.
 
 		// Check if event is handled by this Manager.

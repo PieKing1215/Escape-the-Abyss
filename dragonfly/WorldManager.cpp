@@ -72,10 +72,10 @@ int df::WorldManager::startUp() {
 void df::WorldManager::shutDown() {
 	// Destroy all objects in the scene graph.
 	writeLog("", "Killing all Objects.");
-	m_deletions = scene_graph.activeObjects() + scene_graph.inactiveObjects();
+	df::ObjectList m_deletions = getAllObjects();
 	df::ObjectListIterator li(&m_deletions);
 	li.first();
-	while (!li.isDone()) {
+	while (!li.isDone() && li.currentObject()) {
 		delete li.currentObject();
 		li.next();
 	}
@@ -91,38 +91,6 @@ void df::WorldManager::shutDown() {
 }
 
 int df::WorldManager::insertObject(df::Object* p_o) {
-	// Check object is not inserted already
-	df::ObjectList ol = getAllObjects();
-	df::ObjectListIterator li(&ol);
-	li.first();
-	while (!li.isDone() && li.currentObject()) {
-		if (li.currentObject() == p_o) {
-			return 0;
-		}
-		li.next();
-	}
-	// If there are collisions on spawn.
-	if (getCollisions(p_o).getCount() > 0) {
-		df::Vector v;
-		switch (p_o->getOverlapHandle()) {
-		// Object should die.
-		case df::OverlapHandle::DO_NOT_SPAWN:
-			writeLog("ERROR", "Error inserting object '%s %d'. Spawn location overlaps with another object. Ignoring.", p_o->getType().c_str(), p_o->getId());
-			return -1;
-		// Object should try to find a location with 10 units nearby.
-		case df::OverlapHandle::ATTEMPT_TO_MOVE:
-			writeLog("ALERT", "Error inserting object '%s %d'. Collision on change. Attempting to move.", p_o->getType().c_str(), p_o->getId());
-			if (p_o->tryToMove() || getCollisions(p_o).getCount() > 0) {
-				writeLog("ERROR", "No nearby locations found. Ignoring.");
-				return -1;
-			}
-			writeLog("", "Location nearby found. Moved to %s.", df::toString(p_o->getPosition()).c_str());
-			break;
-		// Object should spawn anyways.
-		case df::OverlapHandle::SPAWN_ALWAYS:
-			writeLog("WARN!", "Error inserting object '%s %d'. Collision on change. Inserting anyways. Prepare for a probable crash.", p_o->getType().c_str(), p_o->getId());
-		}
-	}
 	return scene_graph.insertObject(p_o);
 }
 
@@ -163,15 +131,17 @@ void df::WorldManager::update(int step_count) {
 	df::EventStep e_step(step_count);
 	std::string x = "";
 	while (!toUpdate.isDone() && toUpdate.currentObject()) {
-		if (toUpdate.currentObject()->hasGravity()) {
-			df::Vector currentVelocity = toUpdate.currentObject()->getVelocity();
-			toUpdate.currentObject()->setVelocity(df::Vector(currentVelocity.getX(), currentVelocity.getY() + df::GRAVITY));
+		if (df::boxIntersectsBox(df::getWorldBox(toUpdate.currentObject()), df::Box(view.getCorner() - 20, view.getHorizontal() + 40, view.getVertical() + 40))) {
+			if (toUpdate.currentObject()->hasGravity()) {
+				df::Vector currentVelocity = toUpdate.currentObject()->getVelocity();
+				toUpdate.currentObject()->setVelocity(df::Vector(currentVelocity.getX(), currentVelocity.getY() + df::GRAVITY));
+			}
+			df::Vector new_pos = toUpdate.currentObject()->predictPosition();
+			if (new_pos != toUpdate.currentObject()->getPosition()) {
+				moveObject(toUpdate.currentObject(), new_pos);
+			}
+			toUpdate.currentObject()->eventHandler(&e_step);
 		}
-		df::Vector new_pos = toUpdate.currentObject()->predictPosition();
-		if (new_pos != toUpdate.currentObject()->getPosition()) {
-			moveObject(toUpdate.currentObject(), new_pos);
-		}
-		toUpdate.currentObject()->eventHandler(&e_step);
 		toUpdate.next();
 	}
 }
@@ -192,13 +162,13 @@ int df::WorldManager::markForDelete(Object* p_o) {
 
 void df::WorldManager::draw() {
 	// Draw objects in increasing altitude to keep z-index consistent.
-	for (int alt = 0; alt < df::MAX_ALTITUDE; alt++) {
+	for (int alt = 0; alt <= df::MAX_ALTITUDE; alt++) {
 		df::ObjectList ol = scene_graph.activeObjects();
 		df::ObjectListIterator li(&ol);
 		li.first();
 		while (!li.isDone() && li.currentObject()) {
 			// Only draw if on current layer and is (in bounds or a is view object)
-			if (li.currentObject()->getAltitude() == alt && (df::boxIntersectsBox(df::getWorldBox(li.currentObject()), view) || dynamic_cast<df::ViewObject*>(li.currentObject()))) {
+			if (li.currentObject()->getAltitude() == alt && (df::boxIntersectsBox(df::getWorldBox(li.currentObject()), view) || li.currentObject()->isViewObject())) {
 				li.currentObject()->draw();
 			}
 			li.next();
@@ -421,26 +391,28 @@ df::Box df::WorldManager::getView() const {
 
 void df::WorldManager::setViewPosition(df::Vector view_pos) {
 	float x = view_pos.getX() - view.getHorizontal() / 2;
-	if (x + view.getHorizontal() > boundary.getHorizontal()) {
+	if (x + view.getHorizontal() > boundary.getCorner().getX() + boundary.getHorizontal()) {
 		x = boundary.getHorizontal() - view.getHorizontal();
 	}
-	if (x < 0) {
-		x = 0;
+	if (x < boundary.getCorner().getX()) {
+		x = boundary.getCorner().getX();
 	}
 	float y = view_pos.getY() - view.getVertical() / 2;
-	if (y + view.getVertical() > boundary.getVertical()) {
+	if (y + view.getVertical() > boundary.getCorner().getY() + boundary.getVertical()) {
 		y = boundary.getVertical() - view.getVertical();
 	}
-	if (y < 0) {
-		y = 0;
+	if (y < boundary.getCorner().getY()) {
+		y = boundary.getCorner().getY();
 	}
-	df::Vector new_corner(x, y);
-	view.setCorner(new_corner);
+	view.setCorner(df::Vector(x, y));
 }
 
 int df::WorldManager::setViewFollowing(df::Object* p_new_view_following) {
 	if (!p_new_view_following) {
 		p_view_following = NULL;
+		return 0;
+	}
+	if (p_view_following == p_new_view_following) {
 		return 0;
 	}
 	df::ObjectList ol = getAllObjects();
