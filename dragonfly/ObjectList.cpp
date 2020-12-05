@@ -116,7 +116,7 @@ bool df::ObjectList::isFull() const {
 }
 
 bool df::ObjectList::scale(float scale) {
-	LM.writeLog("", "ObjectList", "Scaling list from %d by factor of %f...", max_count, scale);
+	//LM.writeLog("", "ObjectList", "Scaling list from %d by factor of %f...", max_count, scale);
 	df::Object** tmp_obj = (df::Object**)(realloc(m_p_obj, (scale * max_count * (int)sizeof(df::Object*))));
 	if (tmp_obj == NULL) {
 		free(tmp_obj);

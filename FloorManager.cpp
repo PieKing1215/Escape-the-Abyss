@@ -8,6 +8,7 @@
 
 // Engine inludes.
 #include "dragonfly/DisplayManager.h"
+#include "dragonfly/GameManager.h"
 #include "dragonfly/LogManager.h"
 #include "dragonfly/WorldManager.h"
 
@@ -15,6 +16,7 @@
 #include "Checkpoint.h"
 #include "Floor.h"
 #include "Player.h"
+#include "GameOver.h"
 
 #include "EnemySlime.h"
 #include "EnemyBat.h"
@@ -90,6 +92,13 @@ void FloorManager::setNoise(int new_noise) {
 }
 
 int FloorManager::nextFloor() {
+	if (currentFloor == 5) {
+		if (player) {
+			WM.markForDelete(player);
+		}
+		new GameOver;
+		return 0;
+	}
 	// Create floor
 	srand(currentFloor + 1);
 	int floorHeight = previousEndHeight, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 100) - 5) * currentFloor, enemies = 0;
@@ -120,12 +129,12 @@ int FloorManager::nextFloor() {
 			float tmp = (float)(rand() % 10) / 10.0;
 			// TOOD: there is a big performance hit on enemy spawning but not floor spawning
 			if (tmp < groundToAir) {
-				EnemySlime* slime = new EnemySlime();
-				slime->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, 20.0f + floorHeight - 4));
+				//EnemySlime* slime = new EnemySlime();
+				//slime->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, 20.0f + floorHeight - 4));
 			}
 			else {
-				EnemyBat* bat = new EnemyBat();
-				bat->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, 20.0f + floorHeight - 6));
+				//EnemyBat* bat = new EnemyBat();
+				//bat->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, 20.0f + floorHeight - 6));
 			}
 			enemies++;
 		} else if (!player && x == 0) {
@@ -143,7 +152,7 @@ int FloorManager::nextFloor() {
 
 	// Create checkpoint the end of the level
 	new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), DM.getVertical() / 2), 1, DM.getVertical());
-
+	
 	currentFloor++;
 
 	// Add enough room to world
@@ -163,7 +172,7 @@ int FloorManager::nextFloor() {
 	}
 	df::Box boundary = df::Box(df::Vector() - ((w - v) / 2.0), w.getX(), w.getY());
 	WM.setBoundary(boundary);
-	              
+
 	// TODO: load custom settings for next floor if implemented
 
 	return 0;

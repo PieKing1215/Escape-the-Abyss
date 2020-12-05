@@ -40,6 +40,7 @@ df::Object::Object() {
 	is_visible = true;
 	overlapHandle = df::OverlapHandle::ATTEMPT_TO_MOVE;
 	has_gravity = false;
+	m_view_object = false;
 	WM.registerInterest(this, df::STEP_EVENT);
 
 	writeLog("", "Spawned. Awaiting sprite or manual insert for world insertion.");
@@ -327,4 +328,12 @@ bool df::Object::tryToMove() {
 bool df::Object::isGrounded() {
 	// probably on the ground if we would collide with something if we moved slightly downwards
 	return !WM.getCollisions(this, getPosition() + df::Vector(0, 0.05f)).isEmpty();
+}
+
+void df::Object::setIsViewObject(bool new_is_view_object) {
+	m_view_object = new_is_view_object;
+}
+
+bool df::Object::isViewObject() {
+	return m_view_object;
 }

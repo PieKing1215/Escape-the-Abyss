@@ -51,6 +51,7 @@ namespace df {
 		bool is_visible; // Don't draw if not visible
 		OverlapHandle overlapHandle; // How to treat this object on spawn
 		bool has_gravity; // Is affected by gravity
+		bool m_view_object;
 	protected:
 		// Writes to log with the object type and id being the reporter
 		int writeLog(std::string warn, const char* fmt, ...) const;
@@ -188,6 +189,10 @@ namespace df {
 		bool tryToMove();
 
 		bool isGrounded();
+
+		void setIsViewObject(bool new_is_view_object = true);
+
+		bool isViewObject();
 	};
 } // end of namespace df
 #endif // __OBJECT_H__

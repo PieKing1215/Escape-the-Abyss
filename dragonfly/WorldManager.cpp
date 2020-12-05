@@ -162,13 +162,13 @@ int df::WorldManager::markForDelete(Object* p_o) {
 
 void df::WorldManager::draw() {
 	// Draw objects in increasing altitude to keep z-index consistent.
-	for (int alt = 0; alt < df::MAX_ALTITUDE; alt++) {
+	for (int alt = 0; alt <= df::MAX_ALTITUDE; alt++) {
 		df::ObjectList ol = scene_graph.activeObjects();
 		df::ObjectListIterator li(&ol);
 		li.first();
 		while (!li.isDone() && li.currentObject()) {
 			// Only draw if on current layer and is (in bounds or a is view object)
-			if (li.currentObject()->getAltitude() == alt && (df::boxIntersectsBox(df::getWorldBox(li.currentObject()), view) || dynamic_cast<df::ViewObject*>(li.currentObject()))) {
+			if (li.currentObject()->getAltitude() == alt && (df::boxIntersectsBox(df::getWorldBox(li.currentObject()), view) || li.currentObject()->isViewObject())) {
 				li.currentObject()->draw();
 			}
 			li.next();

@@ -1,24 +1,24 @@
 /**
 	The player.
 	@file Player.cpp
-	@author 
+	@author David Mahany (djmahany@wpi.edu)
 */
 
 #include "Player.h"
 
+// Engine includes.
 #include "dragonfly/GameManager.h"
 #include "dragonfly/ResourceManager.h"
 #include "dragonfly/InputManager.h"
 #include "dragonfly/WorldManager.h"
-
 #include "dragonfly/EventStep.h"
 #include "dragonfly/EventCollision.h"
 #include "dragonfly/EventKeyboard.h"
-
 #include "dragonfly/utility.h"
 
+// Game includes.
 #include "EnemyMaster.h"
-
+#include "GameOver.h"
 
 Player::Player() {
 	setType("Player");
@@ -69,6 +69,7 @@ int Player::eventHandler(const df::Event* p_e) {
 		if(enemy) {
 			setVelocity({0, 0});
 			WM.markForDelete(this);
+			new GameOver;
 		}
 	}
 

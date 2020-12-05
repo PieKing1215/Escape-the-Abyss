@@ -7,6 +7,7 @@
 #include "utility.h"
 
 df::ViewObject::ViewObject() {
+	setIsViewObject();
 	setSolidness(df::Solidness::SPECTRAL);
 	setAltitude(MAX_ALTITUDE);
 	setType("ViewObject");
@@ -69,7 +70,7 @@ int df::ViewObject::eventHandler(const Event* p_e) {
 }
 
 void df::ViewObject::setLocation(df::ViewObjectLocation new_location) {
-	df::Object::setPosition(df::Vector(WM.getView().getHorizontal() * ((int)((int)(new_location) % 3) + 1) / 6, (WM.getView().getVertical() * ((int)((int)(new_location) / 3 ) + 1) / 6) + (-1 * !getBorder())));
+	df::Object::setPosition(df::viewToWorld(df::Vector(WM.getView().getHorizontal() * ((int)((int)(new_location) % 3) + 1) / 6, (WM.getView().getVertical() * ((int)((int)(new_location) % 3 ) + 1) / 6) + (-1 * !getBorder()))));
 	m_location = new_location;
 }
 
