@@ -12,6 +12,9 @@
 class EnemySlime : public EnemyMaster {
 private:
 	int jumpCooldown = 0;
+	bool nearPlayer = false;
+	float hDir = 0.0f;
+	int scanCooldown = 15;
 public:
 	EnemySlime();
 

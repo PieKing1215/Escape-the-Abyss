@@ -150,7 +150,7 @@ void Player::tickMovement() {
 	// when on the ground and pressing the same direction as your current velocity
 	if((vx < 0 && xMove < 0) || (vx > 0 && xMove > 0)) {
 		// help push towards max speed
-		float maxSpeed = 1.0f;
+		float maxSpeed = 0.5f;
 		float thru = maxSpeed - abs(vx);
 
 		int sign = (vx < 0 ? -1 : 1);

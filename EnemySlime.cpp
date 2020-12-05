@@ -26,23 +26,28 @@ int EnemySlime::eventHandler(const df::Event* ev) {
 
     if(ev->getType() == df::STEP_EVENT) {
         bool ground = isGrounded();
-        bool nearPlayer = false;
-        float hDir = 0.0f;
 
-        df::ObjectList ol = WM.getSceneGraph().activeObjects();
-        df::ObjectListIterator toUpdate(&ol);
-        toUpdate.first();
-        std::string x = "";
-        while(!toUpdate.isDone() && toUpdate.currentObject()) {
-            if(toUpdate.currentObject()->getType() == "Player") {
-                float dist = (getPosition() - toUpdate.currentObject()->getPosition()).getMagnitude();
-                if(dist < 20) {
-                    nearPlayer = true;
+        scanCooldown--;
+        if(scanCooldown <= 0) {
+            nearPlayer = false;
+            hDir = 0.0f;
+            scanCooldown = 15;
+
+            df::ObjectList ol = WM.getSceneGraph().activeObjects();
+            df::ObjectListIterator toUpdate(&ol);
+            toUpdate.first();
+            std::string x = "";
+            while(!toUpdate.isDone() && toUpdate.currentObject()) {
+                if(toUpdate.currentObject()->getType() == "Player") {
+                    float dist = (getPosition() - toUpdate.currentObject()->getPosition()).getMagnitude();
+                    if(dist < 20) {
+                        nearPlayer = true;
+                    }
+                    float dx = getPosition().getX() - toUpdate.currentObject()->getPosition().getX();
+                    hDir = dx > 0 ? -0.5f : 0.5f;
                 }
-                float dx = getPosition().getX() - toUpdate.currentObject()->getPosition().getX();
-                hDir = dx > 0 ? -0.5f : 0.5f;
+                toUpdate.next();
             }
-            toUpdate.next();
         }
 
         if(ground && nearPlayer) jumpCooldown--;

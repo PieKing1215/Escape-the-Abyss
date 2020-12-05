@@ -12,6 +12,10 @@
 class EnemyBat : public EnemyMaster {
 private:
 	float randomOffset;
+	bool nearPlayer = false;
+	float pxd = 0.0f;
+	float pyd = 0.0f;
+	int scanCooldown = 15;
 public:
 	EnemyBat();
 
