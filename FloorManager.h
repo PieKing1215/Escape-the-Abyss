@@ -12,6 +12,7 @@
 
 // Game includes.
 #include "Player.h"
+#include "Checkpoint.h"
 
 #define FM FloorManager::getInstance()
 
@@ -25,6 +26,10 @@ private:
 	int noise; // A higher number causes more topographical terrain. 0<=noise<=100
 	int previousEndHeight; // The previous ending height.
 	Player* player; // The player pointer.
+	int worldHeight;
+	int maxLevel;
+	Checkpoint* nextCheckpoint;
+	Checkpoint* currentCheckpoint;
 public:
 	// Get the one and only instance of the FloorManager.
 	static FloorManager& getInstance();
@@ -51,5 +56,7 @@ public:
 	// Clear this floor and load the next floor.
 	// Return 0 on success, -1 otherwise
 	int nextFloor();
+
+	int respawn();
 };
 #endif // __FLOOR_MANAGER_H__

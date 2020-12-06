@@ -14,7 +14,6 @@
 #include "dragonfly/utility.h"
 
 // Game includes.
-#include "Checkpoint.h"
 #include "Floor.h"
 #include "Player.h"
 #include "GameOver.h"
@@ -30,6 +29,10 @@ FloorManager::FloorManager() {
 	noise = 80;
 	previousEndHeight = 0;
 	player = NULL;
+	nextCheckpoint = NULL;
+	currentCheckpoint = NULL;
+	worldHeight = 1000;
+	maxLevel = 5;
 }
 
 FloorManager::FloorManager(FloorManager const&) {
@@ -38,7 +41,12 @@ FloorManager::FloorManager(FloorManager const&) {
 	currentFloor = 0;
 	floorSize = 5;
 	noise = 10;
+	previousEndHeight = 0;
 	player = NULL;
+	nextCheckpoint = NULL;
+	currentCheckpoint = NULL;
+	worldHeight = 1000;
+	maxLevel = 5;
 }
 
 void FloorManager::operator=(FloorManager const&) {
@@ -97,8 +105,6 @@ int FloorManager::nextFloor() {
 	}
 	const float groundToAir = (float)(rand() % 10) / 10.0;
 	const int totalEnemies = rand() % enemyMultiplier + 5;
-	const int worldHeight = 1000;
-	const int maxLevel = 5;
 
 	df::Box view = WM.getView(), boundary = WM.getBoundary();
 
@@ -127,12 +133,12 @@ int FloorManager::nextFloor() {
 				float tmp = (float)(rand() % 10) / 10.0;
 				// TOOD: there is a big performance hit on enemy spawning but not floor spawning
 				if (tmp < groundToAir) {
-					//EnemySlime* slime = new EnemySlime();
-					//slime->setPosition(df::viewToWorld(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 4)));
+					EnemySlime* slime = new EnemySlime();
+					slime->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 4));
 				}
 				else {
-					//EnemyBat* bat = new EnemyBat();
-					//bat->setPosition(df::viewToWorld(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 6)));
+					EnemyBat* bat = new EnemyBat();
+					bat->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 6));
 				}
 				enemies++;
 			}
@@ -156,7 +162,8 @@ int FloorManager::nextFloor() {
 	previousEndHeight = floorHeight;
 
 	// Create checkpoint the end of the level
-	new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), worldHeight + 20 + floorHeight), 1, DM.getVertical(), currentFloor == maxLevel);
+	currentCheckpoint = nextCheckpoint;
+	nextCheckpoint = new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), worldHeight + 20 + floorHeight), 1, DM.getVertical(), currentFloor == maxLevel);
 	
 	currentFloor++;
 
@@ -177,4 +184,16 @@ int FloorManager::nextFloor() {
 	// TODO: load custom settings for next floor if implemented
 
 	return 0;
+}
+
+int FloorManager::respawn() {
+	// Create the player
+	player = new Player();
+	player->setPosition(currentCheckpoint->getPosition() - df::Vector(0, 2));
+	player->setVelocity(df::Vector(0.5, 0));
+
+	// Make camera follow player
+	WM.setViewFollowing(player);
+	WM.setViewSlack(df::Vector(0.25, 0.25));
+	return 1;
 }
