@@ -37,7 +37,7 @@ Player::Player() {
 
 	hasGravity(true);
 	
-	health = maxHealth = 5.0f;
+	health = maxHealth = 1.0f;
 
 	//registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
