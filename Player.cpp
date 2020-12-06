@@ -21,8 +21,11 @@
 #include "dragonfly/utility.h"
 
 // Game includes.
+#include "FloorManager.h"
 #include "EnemyMaster.h"
 #include "GameOver.h"
+
+static int lives = 1;
 
 Player::Player() {
 	setType("Player");
@@ -209,10 +212,16 @@ void Player::damage(float damage, df::Vector source) {
 }
 
 void Player::die() {
-	setVelocity({0, 0});
-	WM.setViewFollowing(NULL);
-	WM.markForDelete(this);
-    new GameOver;
+    lives--;
+    if (lives > 0) {
+        FM.respawn();
+    }
+    else {
+        setVelocity({0, 0});
+        WM.setViewFollowing(NULL);
+        WM.markForDelete(this);
+        new GameOver;
+    }
 }
 
 PlayerAttack::PlayerAttack(Player* pl, bool left) {
