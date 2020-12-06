@@ -108,9 +108,11 @@ int FloorManager::nextFloor() {
 
 	df::Box view = WM.getView(), boundary = WM.getBoundary();
 
+	int chHeight = 0;
 	for (int x = 0; x < levelWidth; x++) {
 		if (currentFloor == maxLevel) {
 			new Floor(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight));
+			if(x == levelWidth / 2) chHeight = floorHeight;
 		}
 		else {
 			srand((currentFloor + 1) * (x + 2) * (rand() % 50));
@@ -127,6 +129,7 @@ int FloorManager::nextFloor() {
 			}
 			// simple sin wave for testing. height = (int)(sin(x / 10.0f) * 2.0f + sin(x / 3.14f) * 2.0f);
 			new Floor(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight));
+			if(x == levelWidth / 2) chHeight = floorHeight;
 
 			// Check if this floor tile should have an enemy spawned above it.
 			if (enemies < totalEnemies && (currentFloor > 0 && x % (levelWidth / totalEnemies) == 0) || (currentFloor == 0 && x > 25 && x % (levelWidth / totalEnemies) == 0)) {
@@ -163,7 +166,7 @@ int FloorManager::nextFloor() {
 
 	// Create checkpoint the end of the level
 	currentCheckpoint = nextCheckpoint;
-	nextCheckpoint = new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), worldHeight + 20 + floorHeight), 1, DM.getVertical(), currentFloor == maxLevel);
+	nextCheckpoint = new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), worldHeight + 20 + chHeight), 1, DM.getVertical(), currentFloor == maxLevel);
 	
 	currentFloor++;
 
@@ -189,7 +192,7 @@ int FloorManager::nextFloor() {
 int FloorManager::respawn() {
 	// Create the player
 	player = new Player();
-	player->setPosition(currentCheckpoint->getPosition() - df::Vector(0, 2));
+	player->setPosition(currentCheckpoint->getPosition() - df::Vector(0, 3));
 	player->setVelocity(df::Vector(0.5, 0));
 
 	// Make camera follow player
