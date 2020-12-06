@@ -13,6 +13,7 @@
 // System includes.
 #include <cmath>
 #include <sstream>
+#include <fstream>
 #include <Windows.h>
 
 SYSTEMTIME systemtime;
@@ -113,4 +114,20 @@ int df::rand(unsigned long seed) {
 	srand(seed);
 	g_next = seed;
 	return rand();
+}
+
+std::string df::getLine(std::ifstream* p_file) {
+	std::string line;
+	std::getline(*p_file, line);
+	if (!p_file) {
+		return "";
+	}
+	df::discardCR(line);
+	return line;
+}
+
+void df::discardCR(std::string& str) {
+	if (str.size() > 0 && str[str.size() - 1] == '\r') {
+		str.erase(str.size() - 1);
+	}
 }

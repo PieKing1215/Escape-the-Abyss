@@ -13,6 +13,9 @@
 #include "Object.h"
 #include "Vector.h"
 
+// System includes
+#include <string>
+
 namespace df {
 	// Return true if the two vectors are within 1 unit of each other (inclusive).
 	bool positionsIntersect(Vector p1, Vector p2);
@@ -58,5 +61,11 @@ namespace df {
 
 	// Generate random integer with seed specified. Subsequent calls of rand() are based on this seed and it's generated numbers.
 	int rand(unsigned long seed);
+
+	// Get next line from file, with error checking ("" means error or empty line. Consider using a file ending line to distinguish EOF or error).
+	std::string getLine(std::ifstream* p_file);
+
+	// Remove '\r' from line (if there - typical of Windows).
+	void discardCR(std::string& str);
 } // end of namespace df
 #endif // __UTILITY_H__

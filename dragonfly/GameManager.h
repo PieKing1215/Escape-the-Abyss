@@ -8,6 +8,7 @@
 #define __GAME_MANAGER_H__
 
 #include "Manager.h"
+#include "SaveGame.h"
 
 // Two-letter acronym for easier access to manager.
 #define GM df::GameManager::getInstance()
@@ -25,6 +26,8 @@ namespace df {
 		void operator=(GameManager const&);
 		bool m_game_over; // True if game loop should stop.
 		int m_step_count; // Count of game loop iterations.
+		std::string savePathTemplate;
+		std::string saveExt;
 	public:
 		// Get the singleton instance of the GameManager.
 		static GameManager &getInstance();
@@ -41,6 +44,11 @@ namespace df {
 		bool getGameOver() const;
 		// Return game loop step count.
 		int getStepCount() const;
+		// Save a SaveGame object to an assigned slot
+		// Return number of bytes written. -1 if write error, -2 if file error.
+		int saveGameToSlot(SaveGame* saveGame, int slot);
+		// Return a SaveGame object for the given slot. Empty SaveGame object if no save game found.
+		SaveGame loadGameFromSlot(int slot);
 	};
 } // end of namespace df
 #endif // __GAME_MANAGER_H__

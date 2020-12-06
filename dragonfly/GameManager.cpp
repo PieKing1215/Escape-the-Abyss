@@ -15,20 +15,26 @@
 #include "Clock.h"
 #include "ObjectListIterator.h"
 #include "EventStep.h"
+#include "utility.h"
 
 // System includes.
 #include <Windows.h>
+#include <fstream>
 
 df::GameManager::GameManager() {
 	setType("GameManager");
 	m_game_over = false;
 	m_step_count = 0;
+	savePathTemplate = "saves/slot_";
+	saveExt = ".dat";
 }
 
 df::GameManager::GameManager(GameManager const&) {
 	setType("GameManager");
 	m_game_over = false;
 	m_step_count = 0;
+	savePathTemplate = "saves/slot_";
+	saveExt = ".dat";
 }
 
 void df::GameManager::operator=(GameManager const&) {
@@ -128,4 +134,33 @@ bool df::GameManager::getGameOver() const {
 
 int df::GameManager::getStepCount() const {
 	return m_step_count;
+}
+
+int df::GameManager::saveGameToSlot(df::SaveGame* saveGame, int slot) {
+	FILE* p_f;
+	fopen_s(&p_f, (savePathTemplate + df::toString(slot) + saveExt).c_str(), "w"); // Open the save file for writing.
+	if (p_f == NULL) {
+		return -2;
+	}
+	std::string saveString = saveGame->getSaveString();
+	int x = fprintf(p_f, (df::toString((int)saveString.size()) + "\n" + saveGame->getSaveString() + "end").c_str()); // Write saveGame's saveString
+	fclose(p_f);
+	return x;
+}
+
+df::SaveGame df::GameManager::loadGameFromSlot(int slot) {
+	df::SaveGame* saveGame = new df::SaveGame();
+	std::ifstream file((savePathTemplate + df::toString(slot) + saveExt).c_str());
+	if (!file.good()) {
+		writeLog("ERROR", "Error loading from save slot '%d'. Save does not exist.", slot);
+		file.close();
+		return *saveGame;
+	}
+	std::string s = df::getLine(&file);
+	while (s != "end" && !s.empty()) {
+		int split = s.find_first_not_of(':');
+		saveGame->loadSaveString(s.substr(0, split), s.substr(split + 1, s.size() - (split + 1)));
+		s = df::getLine(&file);
+	}
+	return *saveGame;
 }

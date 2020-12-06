@@ -175,6 +175,7 @@
     <ClCompile Include="dragonfly\ObjectList.cpp" />
     <ClCompile Include="dragonfly\ObjectListIterator.cpp" />
     <ClCompile Include="dragonfly\ResourceManager.cpp" />
+    <ClCompile Include="dragonfly\SaveGame.cpp" />
     <ClCompile Include="dragonfly\SceneGraph.cpp" />
     <ClCompile Include="dragonfly\Sound.cpp" />
     <ClCompile Include="dragonfly\Sprite.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="dragonfly\ObjectList.h" />
     <ClInclude Include="dragonfly\ObjectListIterator.h" />
     <ClInclude Include="dragonfly\ResourceManager.h" />
+    <ClInclude Include="dragonfly\SaveGame.h" />
     <ClInclude Include="dragonfly\SceneGraph.h" />
     <ClInclude Include="dragonfly\Sound.h" />
     <ClInclude Include="dragonfly\Sprite.h" />

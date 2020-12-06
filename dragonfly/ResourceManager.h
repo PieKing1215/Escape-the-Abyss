@@ -45,12 +45,10 @@ namespace df {
 		ResourceManager(ResourceManager const&); // Don't allow copy.
 		void operator=(ResourceManager const&);  // Don't allow assignment.
 		ResourceManager();		 // Private since a singleton.
-		std::string getLine(std::ifstream* p_file); // Get next line from file, with error checking ("" means error).
 		std::vector<std::string> readData(std::ifstream* p_file, std::string delimiter); // Read in next section of data from file as vector of strings. Return vector (empty if error).
-		int matchLineInt(std::vector<std::string>* p_data, const char* token); // Match token in vector of lines (e.g., "frames 5"). Return corresponding value (e.g., 5) (−1 if not found). Remove any line that matches from vector.
+		int matchLineInt(std::vector<std::string>* p_data, const char* token); // Match token in vector of lines (e.g., "frames 5"). Return corresponding value (e.g., 5) (-1 if not found). Remove any line that matches from vector.
 		std::string matchLineStr(std::vector<std::string>* p_data, const char* token); // Match token in vector of lines (e.g., "frames 5"). Return corresponding value (e.g., "green") ("" if not found). Remove any line that matches from vector.
 		Frame matchFrame(std::vector<std::string>* p_data, int width, int height); // Match frame lines until "end", clearing all from vector. Return Frame.
-		void discardCR(std::string& str); // Remove '\r' from line (if there − typical of Windows).
 		Sprite* p_sprite[MAX_SPRITES]; // Array of (pointers to) Sprites.
 		int m_sprite_count;	         // Count of number of loaded sprites.
 		Sound m_sound[MAX_SOUNDS];	 // Array of sound buffers.

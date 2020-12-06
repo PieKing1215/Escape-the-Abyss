@@ -8,6 +8,7 @@
 
 // Engine includes.
 #include "LogManager.h"
+#include "utility.h"
 
 // System includes.
 #include <iostream>
@@ -176,17 +177,6 @@ int df::ResourceManager::loadSprite(std::string filename, std::string label) {
 	return 0;
 }
 
-std::string df::ResourceManager::getLine(std::ifstream* p_file) {
-	std::string line;
-	std::getline(*p_file, line);
-	if (!p_file) {
-		writeLog("ERROR", "File input error.");
-		return "";
-	}
-	discardCR(line);
-	return line;
-}
-
 std::vector<std::string> df::ResourceManager::readData(std::ifstream* p_file, std::string delimiter) {
 	std::vector<std::string> data;
 	std::string begin = "<" + delimiter + ">", end = "</" + delimiter + ">", s = getLine(p_file);
@@ -195,7 +185,7 @@ std::vector<std::string> df::ResourceManager::readData(std::ifstream* p_file, st
 		data.clear();
 		return data;
 	}
-	s = getLine(p_file);
+	s = df::getLine(p_file);
 	while (s != end && !s.empty()) {
 		data.push_back(s);
 		s = getLine(p_file);
@@ -277,12 +267,6 @@ int df::ResourceManager::unloadSprite(std::string label) {
 	}
 	writeLog("ALERT", "Cannot unload sprite '%s'. Sprite not found.", label.c_str());
 	return -1;
-}
-
-void df::ResourceManager::discardCR(std::string& str) {
-	if (str.size() > 0 && str[str.size() - 1] == '\r') {
-		str.erase(str.size() - 1);
-	}
 }
 
 df::Sprite* df::ResourceManager::getSprite(std::string label) const {
