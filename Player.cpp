@@ -25,7 +25,7 @@
 #include "EnemyMaster.h"
 #include "GameOver.h"
 
-static int lives = 3;
+static int lives = 1;
 
 Player::Player() {
 	setType("Player");
@@ -37,7 +37,7 @@ Player::Player() {
 
 	hasGravity(true);
 	
-	health = maxHealth = 1.0f;
+	health = maxHealth = 4.0f;
 
 	//registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
