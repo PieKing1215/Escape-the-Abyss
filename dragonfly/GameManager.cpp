@@ -24,6 +24,7 @@
 df::GameManager::GameManager() {
 	setType("GameManager");
 	m_game_over = false;
+	m_enable_input = true;
 	m_step_count = 0;
 	savePathTemplate = "saves/slot_";
 	saveExt = ".dat";
@@ -32,6 +33,7 @@ df::GameManager::GameManager() {
 df::GameManager::GameManager(GameManager const&) {
 	setType("GameManager");
 	m_game_over = false;
+	m_enable_input = true;
 	m_step_count = 0;
 	savePathTemplate = "saves/slot_";
 	saveExt = ".dat";
@@ -95,7 +97,9 @@ void df::GameManager::run() {
 
 		clock.delta(); // Reset frame clock.
 
-		IM.getInput(); // Poll and dispatch input events.
+		if (m_enable_input) {
+			IM.getInput(); // Poll and dispatch input events.
+		}
 		WM.update(m_step_count); // Update world objects and delete pending objects.
 		
 		WM.draw(); // Redraw frame.
@@ -134,6 +138,14 @@ bool df::GameManager::getGameOver() const {
 
 int df::GameManager::getStepCount() const {
 	return m_step_count;
+}
+
+bool df::GameManager::getEnableInput() {
+	return m_enable_input;
+}
+
+void df::GameManager::setEnableInput(bool new_enable_input) {
+	m_enable_input = new_enable_input;
 }
 
 int df::GameManager::saveGameToSlot(df::SaveGame* saveGame, int slot) {
