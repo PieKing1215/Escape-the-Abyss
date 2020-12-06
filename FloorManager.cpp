@@ -166,7 +166,7 @@ int FloorManager::nextFloor() {
 
 	// Create checkpoint the end of the level
 	currentCheckpoint = nextCheckpoint;
-	nextCheckpoint = new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), worldHeight + 20 + chHeight), 1, DM.getVertical(), currentFloor == maxLevel);
+	nextCheckpoint = new Checkpoint(df::Vector((currentFloor * levelWidth) + (levelWidth / 2), worldHeight + 20 + chHeight - 2), 1, DM.getVertical(), currentFloor == maxLevel);
 	
 	currentFloor++;
 
