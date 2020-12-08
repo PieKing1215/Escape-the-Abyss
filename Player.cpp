@@ -81,7 +81,18 @@ int Player::eventHandler(const df::Event* p_e) {
 		// update movement
 		tickMovement();
 		return 1;
-	} else if(p_e->getType() == df::KEYBOARD_EVENT) {
+	} else if (p_e->getType() == df::COLLISION_EVENT) {
+		df::EventCollision* ce = (df::EventCollision*)p_e;
+
+		// take damage if contacted enemy
+		if (dynamic_cast<EnemyMaster*>(ce->getObject1())) {
+			damage(1.0f, ce->getObject1()->getPosition());
+		}
+		else if (dynamic_cast<EnemyMaster*>(ce->getObject2())) {
+			damage(1.0f, ce->getObject2()->getPosition());
+		}
+	} else if (!(playStartAnim || playEndAnim)) {
+		if(p_e->getType() == df::KEYBOARD_EVENT) {
 		df::EventKeyboard* ke = (df::EventKeyboard*)p_e;
 
 		if (ke->getKey() == df::Keyboard::Key::SPACE) {
@@ -106,32 +117,24 @@ int Player::eventHandler(const df::Event* p_e) {
 		}
 		
 
-	} else if(p_e->getType() == df::MSE_EVENT) {
-		df::EventMouse* me = (df::EventMouse*)p_e;
-
-		// on left mouse click and attack cooldown is ready
-		if(attackCooldown == 0 && me->getMouseAction() == df::EventMouseAction::CLICKED && me->getMouseButton() == df::Mouse::Button::LEFT) {
-			attackCooldown = 40;
-
-			// calculate if the click was to the left or right of the player
-			df::Vector ppos = df::spacesToPixels(df::worldToView(getPosition()));
-			auto dpos = me->getMousePosition() - ppos;
-			bool left = dpos.getX() < 0;
-
-			// spawn attack
-			PlayerAttack* atk = new PlayerAttack(this, left);
-			atk->setPosition(this->getPosition() + df::Vector(0, -0.5f));
 		}
+		else if (p_e->getType() == df::MSE_EVENT) {
+			df::EventMouse* me = (df::EventMouse*)p_e;
 
-	} else if(p_e->getType() == df::COLLISION_EVENT) {
-		df::EventCollision* ce = (df::EventCollision*)p_e;
+			// on left mouse click and attack cooldown is ready
+			if (attackCooldown == 0 && me->getMouseAction() == df::EventMouseAction::CLICKED && me->getMouseButton() == df::Mouse::Button::LEFT) {
+				attackCooldown = 40;
 
-		// take damage if contacted enemy
-		if(dynamic_cast<EnemyMaster*>(ce->getObject1())) {
-			damage(1.0f, ce->getObject1()->getPosition());
-		}else if(dynamic_cast<EnemyMaster*>(ce->getObject2())) {
-			damage(1.0f, ce->getObject2()->getPosition());
-        }
+				// calculate if the click was to the left or right of the player
+				df::Vector ppos = df::spacesToPixels(df::worldToView(getPosition()));
+				auto dpos = me->getMousePosition() - ppos;
+				bool left = dpos.getX() < 0;
+
+				// spawn attack
+				PlayerAttack* atk = new PlayerAttack(this, left);
+				atk->setPosition(this->getPosition() + df::Vector(0, -0.5f));
+			}
+		}
 	}
 
 	return 0;
