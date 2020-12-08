@@ -16,11 +16,10 @@ EnemyBat::EnemyBat() {
 	randomOffset = rand() % 1000; // not important enough to use a good rng so just use rand
     setSprite("bat");
 
+    // make the hitbox smaller so it can't hit the player from as far away
     auto b = getBox();
     b = df::Box(df::Vector(b.getCorner().getX() + 0.5f, b.getCorner().getY() + 0.25f), b.getHorizontal() - 1.0f, b.getVertical() - 0.5f);
-    //setBox(b);
-
-    //registerInterest(df::STEP_EVENT);
+    setBox(b);
 }
 
 int EnemyBat::eventHandler(const df::Event* ev) {

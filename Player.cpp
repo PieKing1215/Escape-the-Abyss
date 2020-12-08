@@ -127,9 +127,14 @@ int Player::eventHandler(const df::Event* p_e) {
 				auto dpos = me->getMousePosition() - ppos;
 				bool left = dpos.getX() < 0;
 
+				// shift the attack up or down
+				float ofsY = dpos.getY() / 150.0f;
+				if(ofsY > 0.25f) ofsY = 0.25f;
+				if(ofsY < -0.25f) ofsY = -0.25f;
+
 				// spawn attack
-				PlayerAttack* atk = new PlayerAttack(this, left);
-				atk->setPosition(this->getPosition() + df::Vector(0, -0.5f));
+				PlayerAttack* atk = new PlayerAttack(this, left, ofsY);
+				atk->setPosition(this->getPosition() + df::Vector(0, -0.5f + ofsY));
 			}
 		}
 	}
@@ -293,20 +298,21 @@ void Player::endAnim() {
 	playEndAnim = true;
 }
 
-PlayerAttack::PlayerAttack(Player* pl, bool left) {
+PlayerAttack::PlayerAttack(Player* pl, bool left, float yOffset) {
 	setSolidness(df::Solidness::SOFT);
 	setSprite(left ? "player-attack-l" : "player-attack-r");
 
 	this->player = pl;
 	this->left = left;
+	this->yOffset = yOffset;
 	this->lifetime = 20;
 
 	// set box for frame 1
 	auto b = getBox();
 	if(left) {
-		b = df::Box(df::Vector(-2.0f, -1.25f), 2.0f, 2.25f);
+		b = df::Box(df::Vector(-2.75f, -1.5f), 2.75f, 2.5f);
 	} else {
-		b = df::Box(df::Vector(0.0f, -1.25f), 2.0f, 2.25f);
+		b = df::Box(df::Vector(0.0f, -1.5f), 2.75f, 2.5f);
 	}
 	setBox(b);
 	
@@ -318,16 +324,16 @@ int PlayerAttack::eventHandler(const df::Event* p_e) {
 
 	if(p_e->getType() == df::STEP_EVENT) {
 
-		setPosition(player->getPosition() + df::Vector(0, -0.5f));
+		setPosition(player->getPosition() + df::Vector(left ? -0.5f : 0.5f, -0.5f + yOffset));
 
 		this->lifetime--;
 		if(lifetime == 12) {
 			// set box for frame 2
 			auto b = getBox();
 			if(left) {
-				b = df::Box(df::Vector(-3.25f, -0.25f), 3.25f, 1.75f);
+				b = df::Box(df::Vector(-3.5f, -0.5f), 3.5f, 2.0f);
 			} else {
-				b = df::Box(df::Vector(0.0f, -0.25f), 3.25f, 1.75f);
+				b = df::Box(df::Vector(0.0f, -0.5f), 3.5f, 2.0f);
 			}
 			setBox(b);
 		}

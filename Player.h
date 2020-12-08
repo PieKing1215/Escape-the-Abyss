@@ -15,9 +15,10 @@ class PlayerAttack : public df::Object {
 	int lifetime;
 	Player* player;
 	bool left;
+	float yOffset = 0;
 
 public:
-	PlayerAttack(Player* pl, bool left);
+	PlayerAttack(Player* pl, bool left, float yOffset);
 
 	virtual int eventHandler(const df::Event* p_e);
 
