@@ -36,6 +36,7 @@ int Checkpoint::eventHandler(const df::Event* p_e) {
 		if (((df::EventCollision*)p_e)->getObject1()->getType() == "Player") {
 			fired = true;
 			if (isFinal) {
+				((Player*)((df::EventCollision*)p_e)->getObject1())->endAnim();
 				new GameOver;
 			}
 			else {

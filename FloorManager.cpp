@@ -137,12 +137,12 @@ int FloorManager::nextFloor() {
 				float tmp = (float)(rand() % 10) / 10.0;
 				// TOOD: there is a big performance hit on enemy spawning but not floor spawning
 				if (tmp < groundToAir) {
-					EnemySlime* slime = new EnemySlime();
-					slime->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 4));
+					//EnemySlime* slime = new EnemySlime();
+					//slime->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 4));
 				}
 				else {
-					EnemyBat* bat = new EnemyBat();
-					bat->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 6));
+					//EnemyBat* bat = new EnemyBat();
+					//bat->setPosition(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight - 6));
 				}
 				enemies++;
 			}
