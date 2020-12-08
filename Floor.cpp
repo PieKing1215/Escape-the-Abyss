@@ -1,7 +1,7 @@
 /**
 	A floor tile.
 	@file Floor.cpp
-	@author
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
 */
 
 #include "Floor.h"

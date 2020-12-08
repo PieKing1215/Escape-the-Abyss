@@ -35,6 +35,12 @@ class Player : public df::Object {
 	float maxHealth;
 	float health;
 
+	bool playStartAnim = true;
+	bool startAnimFire = false;
+	int startTickCounter = 0;
+	bool playEndAnim = false;
+	bool endAnimFire = false;
+
 public:
 
 	Player();
@@ -49,6 +55,8 @@ public:
 
 	void damage(float damage, df::Vector source);
 	void die();
+
+	void endAnim();
 
 };
 

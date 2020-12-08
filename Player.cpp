@@ -57,6 +57,27 @@ int Player::eventHandler(const df::Event* p_e) {
 		if(attackCooldown > 0) attackCooldown--;
 		if(invulnerability > 0) invulnerability--;
 
+		// cutscenes
+		if (playEndAnim) {
+			if (!endAnimFire) {
+				endAnimFire = true;
+				WM.setViewFollowing(NULL);
+			}
+		}
+		else if (playStartAnim) {
+			startTickCounter++;
+			if (startTickCounter == 30 * 7.5) {
+				WM.setViewFollowing(this);
+				WM.setViewSlack(df::Vector(0.25, 0.25));
+			} else if (startTickCounter > 30 * 10 && startTickCounter < 30 * 12) {
+				jump();
+				startAnimFire = true;
+			}
+			else if (startAnimFire && isGrounded()) {
+				playStartAnim = false;
+			}
+		}
+
 		// update movement
 		tickMovement();
 		return 1;
@@ -159,6 +180,21 @@ void Player::tickMovement() {
 	bool aDown = IM.isKeyDown(df::Keyboard::Key::A);
 	bool dDown = IM.isKeyDown(df::Keyboard::Key::D);
 
+	// For cutscenes
+	if (playStartAnim) {
+		if (startTickCounter < 30 * 7.5 || (startTickCounter > 30 * 9.8 && startTickCounter < 30 * 11.8) || (startTickCounter > 30 * 12 && startTickCounter % 120 >= 60)) {
+			aDown = true;
+			dDown = false;
+		}
+		else if (startTickCounter > 30 * 12) {
+			aDown = false;
+			dDown = true;
+		}
+	} else if (playEndAnim) {
+		aDown = false;
+		dDown = true;
+	}
+
 	bool grounded = isGrounded();
 
 	// -X if holding A, +X if holding D
@@ -241,6 +277,10 @@ void Player::die() {
     else {
         new GameOver;
     }
+}
+
+void Player::endAnim() {
+	playEndAnim = true;
 }
 
 PlayerAttack::PlayerAttack(Player* pl, bool left) {

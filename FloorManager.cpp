@@ -15,6 +15,7 @@
 
 // Game includes.
 #include "Floor.h"
+#include "Wall.h"
 #include "Player.h"
 #include "GameOver.h"
 
@@ -46,7 +47,7 @@ FloorManager::FloorManager(FloorManager const&) {
 	nextCheckpoint = NULL;
 	currentCheckpoint = NULL;
 	worldHeight = 1000;
-	maxLevel = 5;
+	maxLevel = 100;
 }
 
 void FloorManager::operator=(FloorManager const&) {
@@ -150,14 +151,22 @@ int FloorManager::nextFloor() {
 				WM.setBoundary(df::Box(df::Vector(), 10 + levelWidth, worldHeight + view.getVertical()));
 				boundary = WM.getBoundary();
 
+				// Create floor for player
+				for (int i = 0; i < 100; i++) {
+					if (i == 5 || i == 25) {
+						for (int j = worldHeight - 249; j < worldHeight; j++) {
+							new Wall(df::Vector(i, j));
+						}
+					} else if (i < 5 || i > 25) {
+						new Floor(df::Vector(i, worldHeight - 250));
+					}
+				}
+
 				// Create the player
 				player = new Player();
-				player->setPosition(df::Vector(0, worldHeight));
-				player->setVelocity(df::Vector(1, 0));
+				player->setPosition(df::Vector(95, worldHeight - 250 - 2));
 
-				// Make camera follow player
-				WM.setViewFollowing(player);
-				WM.setViewSlack(df::Vector(0.25, 0.25));
+				WM.setViewPosition(df::Vector(0, player->getPosition().getY() + 0.5));
 			}
 		}
 	}

@@ -1,12 +1,21 @@
 /**
-	A wall that spans the height of the screen.
+	A wall tile.
 	@file Wall.cpp
-	@author
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
 */
 
 #include "Wall.h"
 
-Wall::Wall() : Object() {
+// Engine includes.
+#include "dragonfly/DisplayManager.h"
+#include "dragonfly/WorldManager.h"
+
+Wall::Wall(df::Vector pos) : Object() {
 	setType("Wall");
-	setSprite("wall1");
+	setPosition(pos);
+	WM.insertObject(this);
+}
+
+int Wall::draw() {
+	return DM.drawCh(getPosition(), '|', df::Color::WHITE);
 }

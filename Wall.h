@@ -11,7 +11,8 @@
 
 class Wall : public df::Object {
 public:
-	Wall();
+	Wall(df::Vector pos);
+	int draw();
 };
 
 #endif // __WALL__
