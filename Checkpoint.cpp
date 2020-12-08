@@ -48,6 +48,7 @@ int Checkpoint::eventHandler(const df::Event* p_e) {
 	return 0;
 }
 
+/*
 int Checkpoint::draw() {
 	std::string tmp = "";
 	for (int i = 0; i < getBox().getHorizontal(); i++) {
@@ -55,4 +56,5 @@ int Checkpoint::draw() {
 	}
 	return DM.drawString(getPosition(), tmp, df::Justification::LEFT_JUSTIFIED, df::Color::YELLOW);
 }
+*/
 
