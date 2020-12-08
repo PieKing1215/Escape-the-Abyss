@@ -93,30 +93,27 @@ int Player::eventHandler(const df::Event* p_e) {
 		}
 	} else if (!(playStartAnim || playEndAnim)) {
 		if(p_e->getType() == df::KEYBOARD_EVENT) {
-		df::EventKeyboard* ke = (df::EventKeyboard*)p_e;
+			df::EventKeyboard* ke = (df::EventKeyboard*)p_e;
 
-		if (ke->getKey() == df::Keyboard::Key::SPACE) {
-			if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
-				// space pressed, start a jump
-				jump();
-				return 1;
+			if (ke->getKey() == df::Keyboard::Key::SPACE) {
+				if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
+					// space pressed, start a jump
+					jump();
+					return 1;
+				}
+				else if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_RELEASED) {
+					// space released, end the jump
+					endJump();
+					return 1;
+				}
 			}
-			else if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_RELEASED) {
-				// space released, end the jump
-				endJump();
-				return 1;
+			if (ke->getKey() == df::Keyboard::Key::Q) {
+				if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
+					// Q pressed, quit the game
+					GM.setGameOver();
+					return 1;
+				}
 			}
-		}
-
-		if (ke->getKey() == df::Keyboard::Key::Q) {
-			if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
-				// Q pressed, quit the game
-				GM.setGameOver();
-				return 1;
-			}
-		}
-		
-
 		}
 		else if (p_e->getType() == df::MSE_EVENT) {
 			df::EventMouse* me = (df::EventMouse*)p_e;
@@ -133,6 +130,16 @@ int Player::eventHandler(const df::Event* p_e) {
 				// spawn attack
 				PlayerAttack* atk = new PlayerAttack(this, left);
 				atk->setPosition(this->getPosition() + df::Vector(0, -0.5f));
+			}
+		}
+	}
+	else if (p_e->getType() == df::KEYBOARD_EVENT) {
+		df::EventKeyboard* ke = (df::EventKeyboard*)p_e;
+		if (ke->getKey() == df::Keyboard::Key::Q) {
+			if (ke->getKeyboardAction() == df::EventKeyboardAction::KEY_PRESSED) {
+				// Q pressed, quit the game
+				GM.setGameOver();
+				return 1;
 			}
 		}
 	}
