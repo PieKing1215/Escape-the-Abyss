@@ -189,6 +189,7 @@
     <ClCompile Include="EnemySlime.cpp" />
     <ClCompile Include="FloorManager.cpp" />
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="StartMenu.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="game.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="EnemySlime.h" />
     <ClInclude Include="FloorManager.h" />
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="StartMenu.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="EnemyMaster.h" />
     <ClInclude Include="Floor.h" />

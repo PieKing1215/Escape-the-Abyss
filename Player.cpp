@@ -41,10 +41,12 @@ Player::Player() {
 	// set initial health (keep track of max health too in case we want a health bar or something later)
 	health = maxHealth = 4.0f;
 
-	//registerInterest(df::STEP_EVENT);
+	registerInterest(df::STEP_EVENT);
 	registerInterest(df::COLLISION_EVENT);
 	registerInterest(df::KEYBOARD_EVENT);
 	registerInterest(df::MSE_EVENT);
+
+	
 
 	setSprite("player-bounds");
 }
@@ -211,6 +213,10 @@ void Player::tickMovement() {
 	bool dDown = IM.isKeyDown(df::Keyboard::Key::D);
 
 	// For cutscenes
+	if (!animStartFlag) {
+		aDown = false;
+		dDown = false;
+	}
 	if (playStartAnim) {
 		if (startTickCounter < 30 * 7.5 || (startTickCounter > 30 * 9.8 && startTickCounter < 30 * 11.8) || (startTickCounter > 30 * 12 && startTickCounter % 120 >= 60)) {
 			aDown = true;
@@ -220,7 +226,8 @@ void Player::tickMovement() {
 			aDown = false;
 			dDown = true;
 		}
-	} else if (playEndAnim) {
+	}
+	else if (playEndAnim) {
 		aDown = false;
 		dDown = true;
 	}
@@ -315,6 +322,11 @@ void Player::die() {
 void Player::endAnim() {
 	playEndAnim = true;
 }
+
+void Player::startFlag() {
+	animStartFlag = true;
+}
+
 
 PlayerAttack::PlayerAttack(Player* pl, bool left, float yOffset) {
 	setSolidness(df::Solidness::SOFT);

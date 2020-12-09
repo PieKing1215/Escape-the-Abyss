@@ -7,12 +7,7 @@
 #ifndef __VIEW_OBJECT_H__
 #define __VIEW_OBJECT_H__
 
-// System includes.
-#include <string>
-
 // Engine includes.
-#include "Color.h"
-#include "Event.h"        
 #include "Object.h"
 
 namespace df {

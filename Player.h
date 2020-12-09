@@ -61,10 +61,7 @@ public:
 
 	void endAnim();
 
-	void startFlag() {
-		animStartFlag = true;
-	}
-
+	void startFlag();
 };
 
 #endif // __PLAYER__

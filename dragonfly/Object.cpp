@@ -240,10 +240,9 @@ int df::Object::draw() {
 }
 
 int df::Object::registerInterest(df::Object* p_o, std::string event_type) {
-	if (event_count == df::MAX_OBJ_EVENTS) {
+	if (event_count == df::MAX_OBJ_EVENTS || GM.registerInterest(this, event_type) == -1) {
 		return -1;
 	}
-	GM.registerInterest(this, event_type);
 	event_name[event_count] = event_type;
 	event_count++;
 	return 0;

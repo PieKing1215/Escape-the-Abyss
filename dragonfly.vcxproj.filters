@@ -138,6 +138,9 @@
     <ClCompile Include="dragonfly\SaveGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StartMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Floor.h">
@@ -261,6 +264,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dragonfly\SaveGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
