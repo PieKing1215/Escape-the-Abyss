@@ -31,10 +31,9 @@ int StartMenu::eventHandler(const df::Event* p_e) {
 	if(p_e->getType() == df::KEYBOARD_EVENT) {
 		df::EventKeyboard* ke = (df::EventKeyboard*)p_e;
 
-		if(ke->getKey() == df::Keyboard::Key::S) {
+		if(ke->getKey() == df::Keyboard::Key::SPACE) {
 
 			player->startFlag();
-			WM.markForDelete(this);
 
 			return 1;
 		}

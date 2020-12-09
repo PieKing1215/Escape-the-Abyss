@@ -29,7 +29,7 @@ slowdown 15
                                                                       
                                                                       
                                                                       
-                                            Press [S] to Start        
+                                            Press [Space] to Start    
                                                                       
                                             Move   - [A]+[D]          
                                             Jump   - [Space]          
