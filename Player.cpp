@@ -68,16 +68,20 @@ int Player::eventHandler(const df::Event* p_e) {
 		}
 		else if (playStartAnim) {
 			startTickCounter++;
-			if (startTickCounter == (int)(30 * 7.5) + 1) {
-				if(!animStartFlag) {
+			if (startTickCounter == 30 * 10) {
+				if (!animStartFlag) {
 					startTickCounter--;
-				} else {
-					WM.setViewFollowing(this);
-					WM.setViewSlack(df::Vector(0.25, 0.25));
 				}
-			} else if (startTickCounter > 30 * 10 && startTickCounter < 30 * 12) {
-				jump();
-				startAnimFire = true;
+				else {
+					setVelocity({ getVelocity().getX(), -0.6f });
+					RM.getSound("jump")->play();
+					startAnimFire = true;
+				}
+			} else if (startTickCounter <= 30 * 12) {
+
+			} else if (startTickCounter > 30 * 12 && startTickCounter < 30 * 14) {
+				WM.setViewFollowing(this);
+				WM.setViewSlack(df::Vector(0.25, 0.25));
 			}
 			else if (startAnimFire && isGrounded()) {
 				playStartAnim = false;
@@ -106,7 +110,7 @@ int Player::eventHandler(const df::Event* p_e) {
 			RM.getSound("hurt")->play();
 			damage(1.0f, ce->getObject2()->getPosition());
 		}
-	} else if (!(playStartAnim || playEndAnim)) {
+	} else if (!(playStartAnim || playEndAnim) && animStartFlag) {
 		if(p_e->getType() == df::KEYBOARD_EVENT) {
 			df::EventKeyboard* ke = (df::EventKeyboard*)p_e;
 
@@ -226,6 +230,10 @@ void Player::tickMovement() {
 			aDown = false;
 			dDown = true;
 		}
+		else {
+			aDown = false;
+			dDown = false;
+		}
 	}
 	else if (playEndAnim) {
 		aDown = false;
@@ -274,7 +282,7 @@ void Player::tickMovement() {
 
 void Player::jump() {
 	// start jump
-	if (isGrounded()) {
+	if (isGrounded() && !playStartAnim && !playEndAnim) {
 		setVelocity({ getVelocity().getX(), -0.6f });
 		RM.getSound("jump")->play();
 	}
