@@ -18,6 +18,6 @@ public:
 	Checkpoint(df::Vector pos, int width, int height, bool finalCheckpoint = false);
 	bool hasFired() const;
 	virtual int eventHandler(const df::Event* p_e);
-	int draw();
+	//int draw();
 };
 #endif // __CHECKPOINT_H__
