@@ -68,7 +68,7 @@ int Player::eventHandler(const df::Event* p_e) {
 		}
 		else if (playStartAnim) {
 			startTickCounter++;
-			if (startTickCounter == 30 * 10) {
+			if (startTickCounter == (int)(30 * 9.8) + 1) {
 				if (!animStartFlag) {
 					startTickCounter--;
 				}
