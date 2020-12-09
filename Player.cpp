@@ -77,9 +77,9 @@ int Player::eventHandler(const df::Event* p_e) {
 					RM.getSound("jump")->play();
 					startAnimFire = true;
 				}
-			} else if (startTickCounter <= 30 * 12) {
+			} else if (startTickCounter < 30 * 14) {
 
-			} else if (startTickCounter > 30 * 12 && startTickCounter < 30 * 14) {
+			} else if (startTickCounter == 30 * 14) {
 				WM.setViewFollowing(this);
 				WM.setViewSlack(df::Vector(0.25, 0.25));
 			}
