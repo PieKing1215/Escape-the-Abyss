@@ -20,7 +20,7 @@ GameOver::GameOver() {
 	setPosition(df::viewToWorld(df::Vector(v.getHorizontal(), v.getVertical()) / 2)); // Set location to center
 	registerInterest(df::STEP_EVENT);
 	if (setSprite("gameover") == 0) {
-		time_to_live = getAnimation()->getSprite()->getFrameCount() * getAnimation()->getSprite()->getSlowdown();
+		time_to_live = getAnimation()->getSprite()->getFrameCount() * getAnimation()->getSprite()->getSlowdown() + 90;
 	} else {
 		time_to_live = 0;
 	}
