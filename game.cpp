@@ -58,4 +58,14 @@ void loadResources() {
 	RM.loadSprite("sprites/player-idle-feet-spr.txt", "player-idle-feet");
 	RM.loadSprite("sprites/player-bounds.txt", "player-bounds");
 	RM.loadSprite("sprites/gameover-spr.txt", "gameover");
+
+	RM.loadSound("sounds/jump5.ogg", "jump");
+	RM.loadSound("sounds/hit2.ogg", "hit");
+	RM.loadSound("sounds/hurt3.ogg", "hurt");
+
+	RM.loadMusic("musics/Retro Mystic.ogg", "bgMusic");
+
+	df::Music* bgMusic = RM.getMusic("bgMusic");
+	bgMusic->getMusic()->setVolume(25);
+	bgMusic->play();
 }

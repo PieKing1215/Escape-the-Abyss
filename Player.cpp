@@ -86,9 +86,11 @@ int Player::eventHandler(const df::Event* p_e) {
 
 		// take damage if contacted enemy
 		if (dynamic_cast<EnemyMaster*>(ce->getObject1())) {
+			RM.getSound("hurt")->play();
 			damage(1.0f, ce->getObject1()->getPosition());
 		}
 		else if (dynamic_cast<EnemyMaster*>(ce->getObject2())) {
+			RM.getSound("hurt")->play();
 			damage(1.0f, ce->getObject2()->getPosition());
 		}
 	} else if (!(playStartAnim || playEndAnim)) {
@@ -135,6 +137,8 @@ int Player::eventHandler(const df::Event* p_e) {
 				// spawn attack
 				PlayerAttack* atk = new PlayerAttack(this, left, ofsY);
 				atk->setPosition(this->getPosition() + df::Vector(0, -0.5f + ofsY));
+
+				RM.getSound("hit")->play();
 			}
 		}
 	}
@@ -252,7 +256,10 @@ void Player::tickMovement() {
 
 void Player::jump() {
 	// start jump
-	if(isGrounded()) setVelocity({getVelocity().getX(), -0.6f});
+	if (isGrounded()) {
+		setVelocity({ getVelocity().getX(), -0.6f });
+		RM.getSound("jump")->play();
+	}
 }
 
 void Player::endJump() {
