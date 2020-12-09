@@ -30,6 +30,7 @@ private:
 	int maxLevel;
 	Checkpoint* nextCheckpoint;
 	Checkpoint* currentCheckpoint;
+	long seed;
 public:
 	// Get the one and only instance of the FloorManager.
 	static FloorManager& getInstance();

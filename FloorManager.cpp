@@ -35,6 +35,7 @@ FloorManager::FloorManager() {
 	currentCheckpoint = NULL;
 	worldHeight = 1000;
 	maxLevel = 5;
+	seed = df::getTime();
 }
 
 FloorManager::FloorManager(FloorManager const&) {
@@ -49,6 +50,7 @@ FloorManager::FloorManager(FloorManager const&) {
 	currentCheckpoint = NULL;
 	worldHeight = 1000;
 	maxLevel = 100;
+	seed = df::getTime();
 }
 
 void FloorManager::operator=(FloorManager const&) {
@@ -100,7 +102,7 @@ void FloorManager::setNoise(int new_noise) {
 
 int FloorManager::nextFloor() {
 	// Create floor
-	srand(currentFloor + 1);
+	srand(currentFloor + 1 + seed);
 	int floorHeight = previousEndHeight, levelWidth = 100, enemyMultiplier = (((levelWidth - 15) / 100) - 5) * currentFloor, enemies = 0;
 	if (enemyMultiplier <= 0) {
 		enemyMultiplier = 1;
@@ -117,7 +119,7 @@ int FloorManager::nextFloor() {
 			if(x == levelWidth / 2) chHeight = floorHeight;
 		}
 		else {
-			srand((currentFloor + 1) * (x + 2) * (rand() % 50));
+			srand((currentFloor + 1 + seed) * (x + 2) * (rand() % 50));
 			if (x % floorSize == 0) {
 				int height = rand() % 200 - 100;
 				if (abs(height) >= 100 - noise) {
