@@ -104,6 +104,8 @@ int df::DisplayManager::drawCh(Vector world_pos, char ch, Color color) const {
 	else {
 		text.setCharacterSize(charHeight() * 2);
 	}
+
+	static sf::Color ORANGE(255, 127, 0, 255);
 	switch (color) {
 	case df::Color::BLACK:
 		text.setFillColor(sf::Color::Black);
@@ -126,8 +128,12 @@ int df::DisplayManager::drawCh(Vector world_pos, char ch, Color color) const {
 	case df::Color::CYAN:
 		text.setFillColor(sf::Color::Cyan);
 		break;
+	case df::Color::ORANGE:
+		text.setFillColor(ORANGE);
+		break;
 	case df::Color::WHITE:
 		text.setFillColor(sf::Color::White);
+		break;
 	}
 	df::Vector pixel_pos = spacesToPixels(view_pos);
 	text.setPosition(pixel_pos.getX(), pixel_pos.getY());

@@ -42,6 +42,8 @@ class Player : public df::Object {
 	bool playEndAnim = false;
 	bool endAnimFire = false;
 
+	bool animStartFlag = false;
+
 public:
 
 	Player();
@@ -58,6 +60,10 @@ public:
 	void die();
 
 	void endAnim();
+
+	void startFlag() {
+		animStartFlag = true;
+	}
 
 };
 

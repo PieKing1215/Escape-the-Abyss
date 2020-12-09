@@ -139,6 +139,8 @@ int df::ResourceManager::loadSprite(std::string filename, std::string label) {
 		}
 		else if (y == "white") {
 			sprite->setColor(df::Color::WHITE);
+		} else if(y == "orange") {
+			sprite->setColor(df::Color::ORANGE);
 		}
 		else if (y == "custom") {
 			sprite->setColor(df::Color::CUSTOM);

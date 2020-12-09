@@ -66,9 +66,13 @@ int Player::eventHandler(const df::Event* p_e) {
 		}
 		else if (playStartAnim) {
 			startTickCounter++;
-			if (startTickCounter == 30 * 7.5) {
-				WM.setViewFollowing(this);
-				WM.setViewSlack(df::Vector(0.25, 0.25));
+			if (startTickCounter == (int)(30 * 7.5) + 1) {
+				if(!animStartFlag) {
+					startTickCounter--;
+				} else {
+					WM.setViewFollowing(this);
+					WM.setViewSlack(df::Vector(0.25, 0.25));
+				}
 			} else if (startTickCounter > 30 * 10 && startTickCounter < 30 * 12) {
 				jump();
 				startAnimFire = true;
@@ -76,6 +80,13 @@ int Player::eventHandler(const df::Event* p_e) {
 			else if (startAnimFire && isGrounded()) {
 				playStartAnim = false;
 			}
+		}
+
+		if(getPosition().getY() > 1040) {
+			damage(1.0f, getPosition());
+			invulnerability = 60;
+			setPosition({getPosition().getX(), 1010});
+			setVelocity({0.1, -0.25});
 		}
 
 		// update movement

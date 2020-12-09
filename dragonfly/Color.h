@@ -20,6 +20,7 @@ namespace df {
 		MAGENTA,
 		CYAN,
 		WHITE,
+		ORANGE,
 		CUSTOM,
 	};
 

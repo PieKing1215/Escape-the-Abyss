@@ -58,4 +58,5 @@ void loadResources() {
 	RM.loadSprite("sprites/player-idle-feet-spr.txt", "player-idle-feet");
 	RM.loadSprite("sprites/player-bounds.txt", "player-bounds");
 	RM.loadSprite("sprites/gameover-spr.txt", "gameover");
+	RM.loadSprite("sprites/startmenu-spr.txt", "startmenu");
 }
