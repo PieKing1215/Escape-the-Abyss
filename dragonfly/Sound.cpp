@@ -44,6 +44,6 @@ void df::Sound::pause() {
 	m_sound.pause();
 }
 
-sf::Sound df::Sound::getSound() const {
-	return m_sound;
+sf::Sound* df::Sound::getSound() const {
+	return (sf::Sound*)&m_sound;
 }

@@ -63,6 +63,10 @@ void loadResources() {
 	RM.loadSound("sounds/jump5.ogg", "jump");
 	RM.loadSound("sounds/hit2.ogg", "hit");
 	RM.loadSound("sounds/hurt3.ogg", "hurt");
+	RM.loadSound("sounds/error3.ogg", "bat_die");
+	RM.loadSound("sounds/fall5.ogg", "slime_die");
+	RM.loadSound("sounds/jump2.ogg", "slime_jump");
+	RM.loadSound("sounds/gameover4.ogg", "gameover");
 
 	RM.loadMusic("musics/Retro Mystic.ogg", "bgMusic");
 

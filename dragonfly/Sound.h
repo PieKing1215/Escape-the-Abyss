@@ -49,7 +49,7 @@ namespace df {
 		void pause();
 
 		// Return SFML sound.
-		sf::Sound getSound() const;
+		sf::Sound* getSound() const;
 	};
 
 } // end of namespace df

@@ -8,6 +8,7 @@
 
 // Engine includes.
 #include "dragonfly/WorldManager.h"
+#include "dragonfly/ResourceManager.h"
 #include "dragonfly/EventStep.h"
 
 EnemySlime::EnemySlime() {
@@ -19,6 +20,11 @@ EnemySlime::EnemySlime() {
     auto b = getBox();
     b = df::Box(df::Vector(b.getCorner().getX() + 0.5f, b.getCorner().getY() + 1.25f), b.getHorizontal() - 1.0f, b.getVertical() - 1.25f);
     setBox(b);
+}
+
+EnemySlime::~EnemySlime() {
+    RM.getSound("slime_die")->getSound()->setVolume(50);
+    RM.getSound("slime_die")->play();
 }
 
 int EnemySlime::eventHandler(const df::Event* ev) {
@@ -76,6 +82,9 @@ int EnemySlime::eventHandler(const df::Event* ev) {
 
         if(jumpCooldown <= 0) {
             // jump towards player
+            RM.getSound("slime_jump")->getSound()->setVolume(50);
+            RM.getSound("slime_jump")->play();
+
             float jumpStrength = 0.5f;
             jumpStrength += (rand() % 100) / 100.0f * 0.15f;
             setVelocity({getVelocity().getX() + hDir, -jumpStrength});

@@ -99,11 +99,9 @@ int Player::eventHandler(const df::Event* p_e) {
 
 		// take damage if contacted enemy
 		if (dynamic_cast<EnemyMaster*>(ce->getObject1())) {
-			RM.getSound("hurt")->play();
 			damage(1.0f, ce->getObject1()->getPosition());
 		}
 		else if (dynamic_cast<EnemyMaster*>(ce->getObject2())) {
-			RM.getSound("hurt")->play();
 			damage(1.0f, ce->getObject2()->getPosition());
 		}
 	} else if (!(playStartAnim || playEndAnim)) {
@@ -151,6 +149,7 @@ int Player::eventHandler(const df::Event* p_e) {
 				PlayerAttack* atk = new PlayerAttack(this, left, ofsY);
 				atk->setPosition(this->getPosition() + df::Vector(0, -0.5f + ofsY));
 
+				RM.getSound("hit")->getSound()->setVolume(50);
 				RM.getSound("hit")->play();
 			}
 		}
@@ -276,6 +275,7 @@ void Player::jump() {
 	// start jump
 	if (isGrounded()) {
 		setVelocity({ getVelocity().getX(), -0.6f });
+		RM.getSound("jump")->getSound()->setVolume(50);
 		RM.getSound("jump")->play();
 	}
 }
@@ -290,6 +290,7 @@ void Player::endJump() {
 void Player::damage(float damage, df::Vector source) {
 	// no damage if invulnerable
 	if(invulnerability > 0) return;
+	RM.getSound("hurt")->play();
 
 	health -= damage;
 	if(health <= 0) {
@@ -315,6 +316,10 @@ void Player::die() {
         FM.respawn();
     }
     else {
+		RM.getSound("gameover")->getSound()->setVolume(50);
+		RM.getSound("gameover")->play();
+		RM.getMusic("bgMusic")->getMusic()->setVolume(30);
+		RM.getMusic("bgMusic")->getMusic()->setPitch(0.2);
         new GameOver;
     }
 }

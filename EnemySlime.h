@@ -17,6 +17,7 @@ private:
 	int scanCooldown = 15;
 public:
 	EnemySlime();
+	~EnemySlime();
 
 	virtual int eventHandler(const df::Event* ev);
 

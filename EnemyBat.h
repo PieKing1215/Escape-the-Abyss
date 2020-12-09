@@ -18,6 +18,7 @@ private:
 	int scanCooldown = 15;
 public:
 	EnemyBat();
+	~EnemyBat();
 
 	virtual int eventHandler(const df::Event* ev);
 };

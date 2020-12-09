@@ -8,6 +8,7 @@
 
 // Engine includes.
 #include "dragonfly/WorldManager.h"
+#include "dragonfly/ResourceManager.h"
 #include "dragonfly/EventStep.h"
 #include "dragonfly/utility.h"
 
@@ -20,6 +21,10 @@ EnemyBat::EnemyBat() {
     auto b = getBox();
     b = df::Box(df::Vector(b.getCorner().getX() + 0.5f, b.getCorner().getY() + 0.25f), b.getHorizontal() - 1.0f, b.getVertical() - 0.5f);
     setBox(b);
+}
+
+EnemyBat::~EnemyBat() {
+    RM.getSound("bat_die")->play();
 }
 
 int EnemyBat::eventHandler(const df::Event* ev) {
