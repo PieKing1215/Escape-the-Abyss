@@ -18,6 +18,7 @@
 #include "Wall.h"
 #include "Player.h"
 #include "GameOver.h"
+#include "StartMenu.h"
 
 #include "EnemySlime.h"
 #include "EnemyBat.h"
@@ -110,7 +111,7 @@ int FloorManager::nextFloor() {
 	df::Box view = WM.getView(), boundary = WM.getBoundary();
 
 	int chHeight = 0;
-	for (int x = 0; x < levelWidth; x++) {
+	for (int x = -4; x < levelWidth; x++) {
 		if (currentFloor == maxLevel) {
 			new Floor(df::Vector((currentFloor * levelWidth) + 10.0f + x, worldHeight + 20.0f + floorHeight));
 			if(x == levelWidth / 2) chHeight = floorHeight;
@@ -154,7 +155,7 @@ int FloorManager::nextFloor() {
 				// Create floor for player
 				for (int i = 0; i < 100; i++) {
 					if (i == 5 || i == 25) {
-						for (int j = worldHeight - 249; j < worldHeight; j++) {
+						for (int j = worldHeight - 249; j < worldHeight + (i == 5 ? 20 : 0); j++) {
 							new Wall(df::Vector(i, j));
 						}
 					} else if (i < 5 || i > 25) {
@@ -166,7 +167,9 @@ int FloorManager::nextFloor() {
 				player = new Player();
 				player->setPosition(df::Vector(95, worldHeight - 250 - 2));
 
-				WM.setViewPosition(df::Vector(0, player->getPosition().getY() + 0.5));
+				WM.setViewPosition(df::Vector(0, player->getPosition().getY() - 4.5));
+
+				StartMenu* st = new StartMenu(player);
 			}
 		}
 	}
