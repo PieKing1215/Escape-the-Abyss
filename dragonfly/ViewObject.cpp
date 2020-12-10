@@ -1,3 +1,9 @@
+/**
+	An object that doesn't have collision and placed based on screen positions instead of world position.
+	@file ViewObject.cpp
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
+*/
+
 #include "ViewObject.h"
 
 // Engine includes.

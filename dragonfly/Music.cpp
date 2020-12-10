@@ -1,3 +1,9 @@
+/**
+	An SFML music container.
+	@file Music.cpp
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
+*/
+
 #include "Music.h"
 
 // Engine includes.

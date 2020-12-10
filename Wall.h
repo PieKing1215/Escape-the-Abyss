@@ -1,6 +1,6 @@
 /**
 	@file Wall.h
-	@author
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
 */
 #pragma once
 

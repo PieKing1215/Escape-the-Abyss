@@ -1,7 +1,7 @@
 /**
 	A checkpoint box.
 	@file Checkpoint.cpp
-	@author
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
 */
 
 #include "Checkpoint.h"

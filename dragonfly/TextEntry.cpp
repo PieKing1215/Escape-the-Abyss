@@ -1,3 +1,9 @@
+/**
+	A view object for entering text.
+	@file TextEntry.cpp
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
+*/
+
 #include "TextEntry.h"
 
 // Engine includes.

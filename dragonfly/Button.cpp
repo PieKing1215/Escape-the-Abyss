@@ -1,3 +1,9 @@
+/**
+	A clickable view object.
+	@file Button.cpp
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
+*/
+
 #include "Button.h"
 
 // Engine includes.

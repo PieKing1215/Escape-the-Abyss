@@ -1,6 +1,6 @@
 /**
 	@file Player.h
-	@author
+	@author David Mahany (djmahany@wpi.edu)
 */
 #pragma once
 

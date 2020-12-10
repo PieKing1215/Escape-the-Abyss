@@ -1,3 +1,9 @@
+/**
+	An event for sending data, usually to a view object.
+	@file EventView.cpp
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
+*/
+
 #include "EventView.h"
 
 df::EventView::EventView() {

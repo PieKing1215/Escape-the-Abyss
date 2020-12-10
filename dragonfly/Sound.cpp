@@ -1,3 +1,9 @@
+/**
+	An SFML sound container.
+	@file Sound.cpp
+	@author Dennis James Stelmach (dstelmach2@wpi.edu)
+*/
+
 #include "Sound.h"
 
 // Engine includes.
